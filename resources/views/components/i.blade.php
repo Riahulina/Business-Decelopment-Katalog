@@ -1,0 +1,1 @@
+@props(['n'])<svg {{ $attributes->merge(['class'=>'i']) }}><use href="#i-{{ $n }}"/></svg>

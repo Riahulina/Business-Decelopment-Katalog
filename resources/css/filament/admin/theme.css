@@ -1,0 +1,157 @@
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+/* =========================================
+   SIDEBAR CUSTOM - BD ADMIN
+========================================= */
+
+/* Container sidebar */
+.fi-sidebar {
+    background: #ffffff;
+    border-right: 1px solid #dbe8fa;
+}
+
+.dark .fi-sidebar {
+    background: #101d33 !important;
+    border-right: 1px solid #1f3559;
+}
+
+/* Setiap item menu (li) */
+.fi-sidebar-item {
+    border-radius: 0.75rem;
+    margin-bottom: 2px;
+}
+
+/* Tombol/link di dalam item */
+.fi-sidebar-item-btn {
+    border-radius: 0.75rem !important;
+    font-weight: 500;
+    color: #5f7396 !important;
+}
+
+.dark .fi-sidebar-item-btn {
+    color: #93a7c8 !important;
+}
+
+.fi-sidebar-item-btn:hover {
+    background-color: #f4f9ff !important;
+    color: #0a2f74 !important;
+}
+
+.dark .fi-sidebar-item-btn:hover {
+    background-color: #16294a !important;
+    color: #5aa2ff !important;
+}
+
+/* Menu yang sedang aktif */
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+    background: linear-gradient(90deg, #e6f1ff, #eef6ff) !important;
+    color: #0a2f74 !important;
+    font-weight: 700;
+    box-shadow: inset 3px 0 0 #2b7fff;
+}
+
+.dark .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+    background: linear-gradient(90deg, #16294a, #1a2f52) !important;
+    color: #5aa2ff !important;
+    box-shadow: inset 3px 0 0 #5aa2ff;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    color: #2b7fff !important;
+}
+
+.dark .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    color: #5aa2ff !important;
+}
+
+/* Ikon di tiap menu (default, non-aktif) */
+.fi-sidebar-item-icon {
+    color: #8a9ab2;
+}
+
+.dark .fi-sidebar-item-icon {
+    color: #6b7d9c;
+}
+
+/* Grup label kalau nanti pakai navigationGroup */
+.fi-sidebar-group-label {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9aaac0 !important;
+}
+
+.dark .fi-sidebar-group-label {
+    color: #6b7d9c !important;
+}
+
+/* =========================================
+   BOTTOM NAV (MOBILE) - BD ADMIN
+========================================= */
+.bd-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .bd-bottom-nav {
+        display: flex;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        background: #ffffff;
+        border-top: 1px solid #dbe8fa;
+        padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 0 -4px 16px rgba(10, 47, 116, 0.08);
+    }
+
+    .dark .bd-bottom-nav {
+        background: #101d33;
+        border-top: 1px solid #1f3559;
+    }
+
+    .bd-bn-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 6px 8px;
+        border-radius: 12px;
+        color: #8a9ab2;
+        font-size: 10px;
+        font-weight: 600;
+        flex: 1;
+        border: 0;
+        background: none;
+        cursor: pointer;
+    }
+
+    .bd-bn-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .bd-bn-item.on {
+        color: #0a2f74;
+    }
+
+    .dark .bd-bn-item {
+        color: #6b7d9c;
+    }
+
+    .dark .bd-bn-item.on {
+        color: #5aa2ff;
+    }
+
+    /* Sembunyikan sidebar bawaan di layar kecil, karena diganti bottom nav */
+    .fi-sidebar {
+        display: none !important;
+    }
+}
