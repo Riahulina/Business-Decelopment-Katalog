@@ -52,7 +52,7 @@ class ResellersTable
                 //
             ])
             ->defaultSort('nama_lengkap')
-            ->recordActions([
+            ->actions([
                 ViewAction::make(),
             ]);
     }

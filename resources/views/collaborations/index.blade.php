@@ -39,8 +39,8 @@
                                     <div class="ph">
                                         <x-i n="users" />
 
-                                        @if ($collaboration->logo)
-                                            <img src="{{ asset($collaboration->logo) }}" alt="{{ $collaboration->name }}"
+                                        @if ($collaboration->logo_url)
+                                            <img src="{{ $collaboration->logo_url }}" alt="{{ $collaboration->name }}"
                                                 onerror="this.remove()">
                                         @endif
                                     </div>

@@ -110,6 +110,10 @@
             <x-heroicon-o-newspaper />
             <span>News</span>
         </a>
+        <a href="{{ \App\Filament\Resources\Collaborations\CollaborationResource::getUrl('index') }}">
+            <x-heroicon-o-user-group />
+            <span>Kolaborasi</span>
+        </a>
 
         <form method="POST" action="{{ filament()->getLogoutUrl() }}">
             @csrf

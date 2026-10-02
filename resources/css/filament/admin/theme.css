@@ -155,3 +155,237 @@
         display: none !important;
     }
 }
+
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
+
+/* =========================================================
+   BD ADMIN - LOGIN PAGE
+========================================================= */
+
+/* Background halaman login */
+.fi-simple-layout {
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(37, 99, 235, 0.1),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(30, 64, 175, 0.1),
+            transparent 30%
+        ),
+        #f4f8ff !important;
+}
+
+/* Container utama */
+.fi-simple-main {
+    position: relative;
+    width: 100%;
+    max-width: 520px !important;
+
+    padding: 42px 46px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #dbe7f5 !important;
+    border-radius: 24px !important;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.1),
+        0 8px 20px rgba(15, 47, 116, 0.06) !important;
+
+    overflow: hidden;
+}
+
+/* Garis biru di bagian atas card */
+.fi-simple-main::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 6px;
+
+    background: linear-gradient(90deg, #0a2f74, #2563eb, #60a5fa);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.fi-simple-header {
+    margin-bottom: 32px !important;
+}
+
+/* BD Admin */
+.fi-simple-header-heading {
+    color: #0a2f74 !important;
+
+    font-size: 30px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: -0.5px;
+}
+
+/* Sign in */
+.fi-simple-header-subheading {
+    color: #64748b !important;
+
+    font-size: 15px !important;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.fi-simple-main form {
+    gap: 22px !important;
+}
+
+/* Label */
+.fi-simple-main label {
+    color: #172033 !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.fi-simple-main .fi-input {
+    min-height: 52px !important;
+
+    background: #f8fbff !important;
+
+    border: 1px solid #d8e3f1 !important;
+
+    border-radius: 12px !important;
+
+    color: #172033 !important;
+
+    box-shadow: none !important;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+/* Input saat diklik */
+.fi-simple-main .fi-input:focus {
+    background: #ffffff !important;
+
+    border-color: #2563eb !important;
+
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Placeholder */
+.fi-simple-main .fi-input::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.fi-simple-main .fi-input-wrp {
+    border-radius: 12px !important;
+
+    background: #f8fbff !important;
+
+    border-color: #d8e3f1 !important;
+}
+
+/* =========================================================
+   REMEMBER ME
+========================================================= */
+
+.fi-simple-main .fi-checkbox-input {
+    width: 18px !important;
+    height: 18px !important;
+
+    border-radius: 5px !important;
+}
+
+/* Text remember me */
+.fi-simple-main .fi-checkbox-label {
+    color: #475569 !important;
+
+    font-size: 14px !important;
+}
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.fi-simple-main .fi-btn {
+    min-height: 52px !important;
+
+    border-radius: 12px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+/* Tombol utama */
+.fi-simple-main .fi-btn-color-primary {
+    background: linear-gradient(135deg, #0a2f74, #164da5) !important;
+
+    color: #ffffff !important;
+
+    box-shadow: 0 10px 20px rgba(10, 47, 116, 0.2) !important;
+}
+
+/* Hover */
+.fi-simple-main .fi-btn-color-primary:hover {
+    background: linear-gradient(135deg, #08265f, #123f8c) !important;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 14px 25px rgba(10, 47, 116, 0.25) !important;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.fi-simple-main a {
+    color: #2563eb !important;
+
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+.fi-simple-main a:hover {
+    color: #0a2f74 !important;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+    .fi-simple-main {
+        max-width: calc(100% - 32px) !important;
+
+        padding: 32px 24px !important;
+
+        border-radius: 20px !important;
+    }
+
+    .fi-simple-header-heading {
+        font-size: 26px !important;
+    }
+}

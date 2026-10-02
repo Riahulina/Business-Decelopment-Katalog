@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Resellers;
 
-use App\Filament\Resources\Resellers\Pages\EditReseller;
+// Hapus import EditReseller jika tidak digunakan lagi
 use App\Filament\Resources\Resellers\Pages\ListResellers;
 use App\Filament\Resources\Resellers\Pages\ViewReseller;
 use App\Filament\Resources\Resellers\Schemas\ResellerForm;
@@ -48,7 +48,7 @@ class ResellerResource extends Resource
         return [
             'index' => ListResellers::route('/'),
             'view'  => ViewReseller::route('/{record}'),
-            'edit'  => EditReseller::route('/{record}/edit'),
+            // Route 'edit' dihapus agar halaman edit tidak bisa diakses
         ];
     }
 }

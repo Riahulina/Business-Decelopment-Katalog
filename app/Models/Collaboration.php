@@ -17,4 +17,16 @@ class Collaboration extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+    public function getLogoUrlAttribute(): ?string
+    {
+        if (! $this->logo) {
+            return null;
+        }
+
+        if (str_starts_with($this->logo, 'images/')) {
+            return asset($this->logo);
+        }
+
+        return asset('storage/' . $this->logo);
+    }
 }
