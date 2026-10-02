@@ -126,7 +126,7 @@
         @else
             <div class="mt-4 divide-y divide-[#dbe8fa] dark:divide-gray-700">
                 @foreach ($latestPending as $p)
-                    <a href="{{ \App\Filament\Resources\Products\ProductResource::getUrl('edit', ['record' => $p]) }}"
+                    <a href="{{ \App\Filament\Resources\Products\ProductResource::getUrl('view', ['record' => $p]) }}"
                         class="flex items-center justify-between gap-4 py-3 transition hover:bg-[#f4f9ff] dark:hover:bg-gray-700/30 rounded-xl px-2">
                         <div>
                             <p class="text-sm font-semibold text-[#0a2f74] dark:text-white">{{ $p->name }}</p>

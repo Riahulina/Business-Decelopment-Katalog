@@ -21,10 +21,10 @@ $("#theme").onclick = () => {
 // hero carousel
 if ($("#car")) {
     const S = [
-        ["/img/hero/Fotobd.jpeg", "Mahasiswa Kreatif"],
-        ["/img/hero/hero-2.jpg", "Kuliner Kampus"],
-        ["/img/hero/hero-3.jpg", "Digital & Jasa"],
-        ["/img/hero/hero-4.jpg", "Craft & Fashion"],
+        ["/img/hero/Fotobd2.jpeg", "Mahasiswa Kreatif"],
+        ["/img/hero/Fotobd1.jpeg", "Kuliner Kampus"],
+        ["/img/hero/FotoHMPS.jpeg", "Digital & Jasa"],
+        ["/img/hero/Hero4.png", "Craft & Fashion"],
     ];
     const tr = $("#track"),
         car = $("#car"),

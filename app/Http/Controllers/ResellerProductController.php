@@ -138,19 +138,13 @@ class ResellerProductController extends Controller
         // REDIRECT
         // =========================================================
 
-        if ($whatsappUrl) {
-            return redirect()->away($whatsappUrl);
-        }
-
-        // Kalau nomor WhatsApp belum tersedia,
-        // tetap kembali ke halaman produk reseller.
         return redirect()
             ->route('reseller.products')
-            ->with(
-                'status',
-                'Produk berhasil diajukan dan menunggu persetujuan admin.'
-            );
+            ->with('status', 'Produk berhasil diajukan dan menunggu persetujuan admin.')
+            ->with('whatsapp_url', $whatsappUrl)
+            ->with('whatsapp_product', $product->name);
     }
+
     public function show(Request $request, int $id)
     {
         $reseller = $request->user()->reseller;

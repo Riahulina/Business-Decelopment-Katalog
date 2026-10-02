@@ -3,14 +3,11 @@
 namespace App\Filament\Resources\Products\Tables;
 
 use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -20,24 +17,40 @@ class ProductsTable
     {
         return $table
             ->columns([
+
+                // =====================================================
+                // NAMA PRODUK
+                // =====================================================
                 TextColumn::make('name')
                     ->label('Nama Produk')
                     ->searchable()
                     ->sortable(),
 
+                // =====================================================
+                // RESELLER
+                // =====================================================
                 TextColumn::make('reseller.nama_lengkap')
                     ->label('Reseller')
                     ->searchable(),
 
+                // =====================================================
+                // KATEGORI
+                // =====================================================
                 TextColumn::make('category.name')
                     ->label('Kategori')
                     ->searchable(),
 
+                // =====================================================
+                // HARGA
+                // =====================================================
                 TextColumn::make('price')
                     ->label('Harga')
                     ->money('idr')
                     ->sortable(),
 
+                // =====================================================
+                // STATUS
+                // =====================================================
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
@@ -54,20 +67,63 @@ class ProductsTable
                         default    => $state,
                     }),
 
-                IconColumn::make('is_featured')
+                // =====================================================
+                // UNGGULAN
+                // =====================================================
+                ToggleColumn::make('is_featured')
                     ->label('Unggulan')
-                    ->boolean(),
+                    ->afterStateUpdated(function ($record, $state) {
 
-                IconColumn::make('is_new')
+                        Notification::make()
+                            ->title(
+                                $state
+                                    ? 'Produk diaktifkan sebagai unggulan'
+                                    : 'Produk dihapus dari unggulan'
+                            )
+                            ->body(
+                                $state
+                                    ? "\"{$record->name}\" sekarang tampil sebagai produk unggulan."
+                                    : "\"{$record->name}\" tidak lagi ditampilkan sebagai produk unggulan."
+                            )
+                            ->success()
+                            ->send();
+                    }),
+
+                // =====================================================
+                // PRODUK BARU
+                // =====================================================
+                ToggleColumn::make('is_new')
                     ->label('Baru')
-                    ->boolean(),
+                    ->afterStateUpdated(function ($record, $state) {
 
+                        Notification::make()
+                            ->title(
+                                $state
+                                    ? 'Produk ditandai sebagai produk baru'
+                                    : 'Tanda produk baru dinonaktifkan'
+                            )
+                            ->body(
+                                $state
+                                    ? "\"{$record->name}\" sekarang tampil sebagai produk baru."
+                                    : "\"{$record->name}\" tidak lagi ditampilkan sebagai produk baru."
+                            )
+                            ->success()
+                            ->send();
+                    }),
+
+                // =====================================================
+                // TANGGAL PENGAJUAN
+                // =====================================================
                 TextColumn::make('created_at')
                     ->label('Diajukan')
                     ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+
+            // =========================================================
+            // FILTER
+            // =========================================================
             ->filters([
                 SelectFilter::make('status')
                     ->label('Status')
@@ -77,8 +133,17 @@ class ProductsTable
                         'rejected' => 'Ditolak',
                     ]),
             ])
+
             ->defaultSort('created_at', 'desc')
+
+            // =========================================================
+            // AKSI PER PRODUK
+            // =========================================================
             ->recordActions([
+
+                // =====================================================
+                // SETUJUI
+                // =====================================================
                 Action::make('approve')
                     ->label('Setujui')
                     ->icon('heroicon-o-check')
@@ -86,19 +151,78 @@ class ProductsTable
                     ->visible(fn($record) => $record->status === 'pending')
                     ->requiresConfirmation()
                     ->modalHeading('Setujui Produk')
-                    ->modalDescription('Produk ini akan ditampilkan di katalog publik setelah disetujui.')
+                    ->modalDescription(
+                        'Produk ini akan ditampilkan di katalog publik setelah disetujui.'
+                    )
                     ->action(function ($record) {
+
+                        // ---------------------------------------------
+                        // UBAH STATUS PRODUK
+                        // ---------------------------------------------
                         $record->update([
                             'status' => 'approved',
                             'rejection_reason' => null,
                         ]);
 
-                        Notification::make()
-                            ->title('Produk disetujui')
-                            ->success()
-                            ->send();
+                        // ---------------------------------------------
+                        // AMBIL DATA RESELLER
+                        // ---------------------------------------------
+                        $record->load('reseller');
+
+                        $whatsappUrl = null;
+
+                        if ($record->reseller?->whatsapp) {
+
+                            $whatsapp = preg_replace(
+                                '/[^0-9]/',
+                                '',
+                                $record->reseller->whatsapp
+                            );
+
+                            $message =
+                                "Halo {$record->reseller->nama_lengkap} 👋\n\n" .
+                                "Produk kamu telah disetujui oleh Admin BD Katalog.\n\n" .
+                                "📦 *Produk:* {$record->name}\n" .
+                                "📌 *Status:* Disetujui\n\n" .
+                                "Produk kamu sekarang sudah dapat ditampilkan di katalog BD.\n\n" .
+                                "Terima kasih sudah berpartisipasi di BD Katalog 🙌";
+
+                            $whatsappUrl =
+                                'https://wa.me/' .
+                                $whatsapp .
+                                '?text=' .
+                                urlencode($message);
+                        }
+
+                        // ---------------------------------------------
+                        // NOTIFICATION BERHASIL
+                        // ---------------------------------------------
+                        $notification = Notification::make()
+                            ->title('Produk berhasil disetujui')
+                            ->body(
+                                "\"{$record->name}\" sekarang sudah tampil di katalog publik."
+                            )
+                            ->success();
+
+                        // ---------------------------------------------
+                        // TOMBOL WHATSAPP RESELLER
+                        // ---------------------------------------------
+                        $notification->actions([
+                            Action::make('whatsapp')
+                                ->label('Hubungi Reseller')
+                                ->button()
+                                ->url(
+                                    $whatsappUrl,
+                                    shouldOpenInNewTab: true
+                                ),
+                        ]);
+
+                        $notification->send();
                     }),
 
+                // =====================================================
+                // TOLAK
+                // =====================================================
                 Action::make('reject')
                     ->label('Tolak')
                     ->icon('heroicon-o-x-mark')
@@ -109,28 +233,30 @@ class ProductsTable
                             ->label('Alasan Penolakan')
                             ->required()
                             ->rows(3)
-                            ->placeholder('Jelaskan alasan produk ditolak...'),
+                            ->placeholder(
+                                'Jelaskan alasan produk ditolak...'
+                            ),
                     ])
                     ->action(function ($record, array $data) {
+
                         $record->update([
                             'status' => 'rejected',
                             'rejection_reason' => $data['rejection_reason'],
                         ]);
 
                         Notification::make()
-                            ->title('Produk ditolak')
+                            ->title('Produk berhasil ditolak')
+                            ->body(
+                                "\"{$record->name}\" telah ditolak dan alasan penolakan telah disimpan."
+                            )
                             ->warning()
                             ->send();
                     }),
 
+                // =====================================================
+                // LIHAT DETAIL
+                // =====================================================
                 ViewAction::make(),
-
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

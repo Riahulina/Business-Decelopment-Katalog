@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
+            ->globalSearch(false)
             ->brandName('BD Admin')
             ->favicon(asset('images/Logo.png'))
             ->userMenu(position: UserMenuPosition::Sidebar)
@@ -63,7 +64,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 PanelsRenderHook::BODY_END,
-                fn(): string => view('filament.partials.bottom-nav')->render(),
+                fn(): string => filament()->auth()->check()
+                    ? view('filament.partials.bottom-nav')->render()
+                    : '',
             );
     }
 }
