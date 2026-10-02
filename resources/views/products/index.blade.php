@@ -276,8 +276,8 @@
 
 
     {{-- =========================================================
-         SOSOK DI BALIK PRODUK
-    ========================================================== --}}
+     SOSOK DI BALIK PRODUK
+========================================================== --}}
     <section class="sec" style="padding-bottom:60px">
 
         <div class="wrap">
@@ -289,58 +289,58 @@
                 </span>
 
                 <div>
-
-                    <h2>
-                        Sosok di Balik Produk
-                    </h2>
-
-                    <p>
-                        Kenali mahasiswa hebat di balik setiap produk.
-                    </p>
-
+                    <h2>Sosok di Balik Produk</h2>
+                    <p>Kenali mahasiswa hebat di balik setiap produk.</p>
                 </div>
 
             </div>
 
 
-            <div class="ppl2">
+            @if ($resellers->count())
 
-                @foreach ($resellers as $reseller)
-                    <div class="pp">
+                <div class="crew">
 
-                        <div class="ph">
+                    @foreach ($resellers as $reseller)
+                        <article class="crew-card">
 
-                            @if ($reseller->foto)
-                                <img src="{{ asset('storage/' . $reseller->foto) }}" alt="{{ $reseller->nama_lengkap }}"
-                                    style="width:100%;height:100%;object-fit:cover;">
-                            @else
-                                <x-i n="user" />
-                            @endif
+                            <div class="crew-photo">
+                                {{-- inisial tampil kalau foto kosong / gagal dimuat --}}
+                                <span class="crew-initial">
+                                    {{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($reseller->nama_lengkap, 0, 1)) }}
+                                </span>
 
-                        </div>
+                                @if ($reseller->foto)
+                                    <img src="{{ asset('storage/' . $reseller->foto) }}"
+                                        alt="{{ $reseller->nama_lengkap }}" loading="lazy" onerror="this.remove()">
+                                @endif
+                            </div>
 
+                            <div class="crew-info">
 
-                        <div>
+                                <b>{{ $reseller->nama_lengkap }}</b>
 
-                            <b>
-                                {{ $reseller->nama_lengkap }}
-                            </b>
+                                <small>{{ $reseller->prodi ?: 'Mahasiswa BD' }}</small>
 
-                            <small>
-                                {{ $reseller->prodi }}
-                            </small>
+                                <a class="crew-btn" href="{{ route('products.index', ['q' => $reseller->nama_lengkap]) }}">
+                                    Lihat Produk
+                                    <x-i n="arr" />
+                                </a>
 
-                            <a href="{{ route('products.index', ['q' => $reseller->nama_lengkap]) }}">
-                                Lihat Produk
-                                <x-i n="arr" />
-                            </a>
+                            </div>
 
-                        </div>
+                        </article>
+                    @endforeach
 
-                    </div>
-                @endforeach
+                </div>
+            @else
+                <div class="card" style="padding:30px;text-align:center;color:var(--mut);">
+                    <x-i n="id" />
 
-            </div>
+                    <h3 style="margin:10px 0 5px;color:var(--ink);">Belum ada profil</h3>
+
+                    <p style="margin:0;font-size:12px;">Profil mahasiswa penjual akan tampil di sini.</p>
+                </div>
+            @endif
 
         </div>
 
