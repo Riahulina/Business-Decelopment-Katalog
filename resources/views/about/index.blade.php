@@ -2,16 +2,17 @@
 
 @section('title', 'Tentang BD')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/about.css') }}">
+@endpush
+
 @section('content')
 
     <x-page-banner eyebrow="ABOUT BD" title="Wadah Ide, Karya, dan Kolaborasi Mahasiswa" />
 
-
-
     {{-- ================================
          VISI & MISI
     ================================= --}}
-
     <section class="sec">
         <div class="wrap">
 
@@ -26,12 +27,10 @@
                 </div>
             </div>
 
-
             <div class="vm">
 
                 {{-- VISI --}}
                 <div class="vcard">
-
                     <span class="sc">Visi kami</span>
 
                     <h2>
@@ -43,9 +42,7 @@
                     </p>
 
                     <x-i n="sparkle" class="deco" />
-
                 </div>
-
 
                 {{-- MISI --}}
                 <div class="mis">
@@ -75,10 +72,8 @@
                         ];
                     @endphp
 
-
                     @foreach ($missions as $mission)
                         <div class="card mi">
-
                             <div class="fi">
                                 <x-i :n="$mission['icon']" />
                             </div>
@@ -87,12 +82,10 @@
                                 <b>{{ $mission['title'] }}</b>
                                 <p>{{ $mission['description'] }}</p>
                             </div>
-
                         </div>
                     @endforeach
 
                 </div>
-
             </div>
 
         </div>
@@ -102,13 +95,11 @@
     {{-- ================================
          DI BALIK BD
     ================================= --}}
-
-    <section class="sec">
+    <section class="sec about-bd-section">
 
         <div class="wrap">
 
             <div class="sh">
-
                 <span class="si">
                     <x-i n="users" />
                 </span>
@@ -119,54 +110,46 @@
                         BD tumbuh berkat dukungan dan kolaborasi bersama HMPS.
                     </p>
                 </div>
-
             </div>
 
 
             <div class="card logos">
 
+                {{-- BUSINESS DEVELOPMENT --}}
                 <div class="lg">
 
-                    <div class="lgbox">
-
-                        @if (file_exists(public_path('img/logo-bd.png')))
-                            <img src="{{ asset('img/logo-bd.png') }}" alt="Logo BD">
-                        @else
-                            <svg class="star" viewBox="0 0 40 40" fill="currentColor" style="color:var(--acc)">
-                                <path d="M20 2l4 12 12-4-8 10 8 10-12-4-4 12-4-12-12 4 8-10-8-10 12 4z" />
-                            </svg>
-                        @endif
-
+                    <div class="lgbox logo-bd">
+                        <img src="{{ asset('images/logobd.png') }}" alt="Logo Business Development">
                     </div>
 
                     <b>Business Development</b>
 
                     <small>
-                        Unit yang mewadahi dan mengembangkan bisnis mahasiswa.
+                        Divisi yang mewadahi dan mengembangkan bisnis mahasiswa.
                     </small>
 
                 </div>
 
 
-                <div class="x">×</div>
+                {{-- CONNECTOR --}}
+                <div class="connector" aria-hidden="true">
+                    <span></span>
+                    <i>×</i>
+                    <span></span>
+                </div>
 
 
+                {{-- HMPS --}}
                 <div class="lg">
 
-                    <div class="lgbox">
-
-                        @if (file_exists(public_path('img/logo-hmps.png')))
-                            <img src="{{ asset('img/logo-hmps.png') }}" alt="Logo HMPS">
-                        @else
-                            Logo HMPS
-                        @endif
-
+                    <div class="lgbox logo-hmps">
+                        <img src="{{ asset('images/logohmpes.jpeg') }}" alt="Logo HMPS">
                     </div>
 
                     <b>HMPS</b>
 
                     <small>
-                        Himpunan Mahasiswa Program Studi, mitra utama BD.
+                        Himpunan Mahasiswa Program Studi Manajemen Informatika
                     </small>
 
                 </div>
@@ -181,13 +164,11 @@
     {{-- ================================
          NILAI
     ================================= --}}
-
     <section class="sec">
 
         <div class="wrap">
 
             <div class="sh">
-
                 <span class="si">
                     <x-i n="flame" />
                 </span>
@@ -196,7 +177,6 @@
                     <h2>Nilai yang Kami Pegang</h2>
                     <p>Prinsip yang menjaga langkah BD tetap searah.</p>
                 </div>
-
             </div>
 
 
@@ -254,8 +234,7 @@
     {{-- ================================
          PERJALANAN BD
     ================================= --}}
-
-    <section class="sec" style="padding-bottom:60px">
+    <section class="sec bd-timeline-section">
 
         <div class="wrap">
 
@@ -279,24 +258,22 @@
             @php
                 $timeline = [
                     [
-                        'period' => $settings['timeline_1_period'] ?? '',
-                        'title' => $settings['timeline_1_title'] ?? '',
-                        'description' => $settings['timeline_1_description'] ?? '',
+                        'period' => '2025',
+                        'title' => 'Awal Berdirinya BD',
+                        'description' =>
+                            'Business Development pertama kali dibentuk sebagai wadah untuk mendukung dan mengembangkan potensi bisnis mahasiswa.',
                     ],
                     [
-                        'period' => $settings['timeline_2_period'] ?? '',
-                        'title' => $settings['timeline_2_title'] ?? '',
-                        'description' => $settings['timeline_2_description'] ?? '',
+                        'period' => '2026',
+                        'title' => 'Periode Kedua BD',
+                        'description' =>
+                            'Memasuki periode kedua, BD melanjutkan pengembangan program dan kolaborasi untuk mendukung mahasiswa dalam bidang bisnis dan kewirausahaan.',
                     ],
                     [
-                        'period' => $settings['timeline_3_period'] ?? '',
-                        'title' => $settings['timeline_3_title'] ?? '',
-                        'description' => $settings['timeline_3_description'] ?? '',
-                    ],
-                    [
-                        'period' => $settings['timeline_4_period'] ?? '',
-                        'title' => $settings['timeline_4_title'] ?? '',
-                        'description' => $settings['timeline_4_description'] ?? '',
+                        'period' => 'Oktober 2026',
+                        'title' => 'Website Resmi BD Diluncurkan',
+                        'description' =>
+                            'Website resmi Business Development diluncurkan sebagai media informasi, publikasi produk, kolaborasi, dan akses layanan BD.',
                     ],
                 ];
             @endphp
@@ -306,6 +283,8 @@
 
                 @foreach ($timeline as $item)
                     <div class="ts">
+
+                        <span class="timeline-dot"></span>
 
                         <small>
                             {{ $item['period'] }}

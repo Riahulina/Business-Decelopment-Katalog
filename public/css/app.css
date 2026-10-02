@@ -4733,3 +4733,341 @@ footer.site-footer {
         font-size: 11.5px;
     }
 }
+/* =====================================================
+   ABOUT BD
+   ===================================================== */
+
+.about-bd-section {
+    padding-top: 20px;
+}
+
+/* =====================================================
+   DI BALIK BD
+   ===================================================== */
+
+.about-bd-section .logos {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) 90px minmax(240px, 1fr);
+    align-items: center;
+    gap: 20px;
+
+    padding: 34px 50px;
+    margin-top: 25px;
+
+    border-radius: 24px;
+}
+
+/* =====================================================
+   LOGO ITEM
+   ===================================================== */
+
+.about-bd-section .lg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* =====================================================
+   LOGO BOX
+   ===================================================== */
+
+.about-bd-section .lgbox {
+    width: 150px;
+    height: 150px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 22px;
+    overflow: hidden;
+
+    margin-bottom: 18px;
+
+    box-sizing: border-box;
+}
+
+/* LOGO BD */
+
+.about-bd-section .logo-bd {
+    background: #123b82;
+    padding: 28px;
+}
+
+.about-bd-section .logo-bd img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+/* LOGO HMPS */
+
+.about-bd-section .logo-hmps {
+    background: #f5f8ff;
+    border: 1px solid #dbe7fb;
+
+    padding: 18px;
+}
+
+.about-bd-section .logo-hmps img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+/* =====================================================
+   TEXT LOGO
+   ===================================================== */
+
+.about-bd-section .lg b {
+    display: block;
+
+    font-size: 19px;
+    line-height: 1.35;
+
+    color: #123b82;
+
+    margin-bottom: 7px;
+}
+
+.about-bd-section .lg small {
+    display: block;
+
+    max-width: 300px;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    color: #7182a3;
+}
+
+/* =====================================================
+   CONNECTOR
+   ===================================================== */
+
+.about-bd-section .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+
+    width: 90px;
+}
+
+.about-bd-section .connector span {
+    display: block;
+
+    width: 18px;
+    height: 1px;
+
+    background: #c9daf6;
+}
+
+.about-bd-section .connector i {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 5px;
+
+    border-radius: 50%;
+
+    background: #edf4ff;
+    border: 1px solid #d5e5ff;
+
+    color: #2879ef;
+
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+
+    box-sizing: border-box;
+}
+
+/* =====================================================
+   FONT SECTION AGAR TIDAK TERLALU BESAR
+   ===================================================== */
+
+.about-bd-section .sh h2 {
+    font-size: 27px;
+    line-height: 1.25;
+}
+
+.about-bd-section .sh p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   TIMELINE
+   ===================================================== */
+
+.bd-timeline-section {
+    padding-bottom: 70px;
+}
+
+.bd-timeline-section .tl {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-top: 35px;
+}
+
+/* garis */
+
+.bd-timeline-section .tl::before {
+    content: "";
+
+    position: absolute;
+
+    top: 12px;
+    left: 10%;
+    right: 10%;
+
+    height: 1px;
+
+    background: #d7e4f8;
+}
+
+/* timeline item */
+
+.bd-timeline-section .ts {
+    position: relative;
+
+    padding: 30px 22px 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e1eafb;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(31, 70, 120, 0.06);
+}
+
+/* titik timeline */
+
+.bd-timeline-section .timeline-dot {
+    position: absolute;
+
+    top: 5px;
+    left: 50%;
+
+    width: 15px;
+    height: 15px;
+
+    transform: translateX(-50%);
+
+    background: #2879ef;
+
+    border: 4px solid #edf4ff;
+
+    border-radius: 50%;
+
+    box-sizing: content-box;
+
+    z-index: 2;
+}
+
+/* tahun */
+
+.bd-timeline-section .ts small {
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: #edf4ff;
+
+    color: #2879ef;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* judul */
+
+.bd-timeline-section .ts b {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #123b82;
+
+    font-size: 17px;
+    line-height: 1.4;
+}
+
+/* deskripsi */
+
+.bd-timeline-section .ts p {
+    margin: 0;
+
+    color: #7182a3;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 900px) {
+    .about-bd-section .logos {
+        grid-template-columns: 1fr;
+        gap: 18px;
+
+        padding: 35px 25px;
+    }
+
+    .about-bd-section .connector {
+        transform: rotate(90deg);
+        margin: 5px auto;
+    }
+
+    .bd-timeline-section .tl {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .bd-timeline-section .tl::before {
+        display: none;
+    }
+
+    .bd-timeline-section .timeline-dot {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-bd-section .lgbox {
+        width: 125px;
+        height: 125px;
+    }
+
+    .about-bd-section .lg b {
+        font-size: 17px;
+    }
+
+    .about-bd-section .lg small {
+        font-size: 13px;
+    }
+
+    .about-bd-section .sh h2 {
+        font-size: 23px;
+    }
+}

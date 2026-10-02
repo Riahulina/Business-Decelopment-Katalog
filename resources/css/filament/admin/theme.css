@@ -389,3 +389,122 @@
         font-size: 26px !important;
     }
 }
+
+/* =========================================================
+   COLLABORATION FORM
+   ========================================================= */
+
+.collaboration-section {
+    border-radius: 14px !important;
+    border: 1px solid #e5e7eb !important;
+    background: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Judul section */
+.collaboration-section .fi-section-header-heading {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+/* Deskripsi section */
+.collaboration-section .fi-section-header-description {
+    font-size: 13px !important;
+    color: #64748b !important;
+    margin-top: 2px !important;
+}
+
+/* Isi section */
+.collaboration-section .fi-section-content {
+    padding: 20px !important;
+}
+
+/* Label input */
+.collaboration-section .fi-fo-field-wrp-label label {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+}
+
+/* Input */
+.collaboration-section .fi-input {
+    font-size: 13px !important;
+    min-height: 42px !important;
+}
+
+/* Textarea */
+.collaboration-section textarea {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+}
+
+/* Placeholder */
+.collaboration-section input::placeholder,
+.collaboration-section textarea::placeholder {
+    font-size: 13px !important;
+    color: #94a3b8 !important;
+}
+
+/* Helper text */
+.collaboration-section .fi-fo-field-wrp-helper-text {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    color: #64748b !important;
+}
+
+/* Toggle label */
+.collaboration-section .fi-fo-toggle-label {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+/* Toggle helper */
+.collaboration-section .fi-fo-toggle-description {
+    font-size: 12px !important;
+    color: #64748b !important;
+}
+
+/* Upload area */
+.collaboration-section .fi-fo-file-upload {
+    border-radius: 10px !important;
+}
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+/* Judul "Edit HMPS Manajemen..." */
+.fi-header-heading {
+    font-size: 26px !important;
+    line-height: 1.25 !important;
+    font-weight: 700 !important;
+}
+
+/* Breadcrumb */
+.fi-breadcrumbs {
+    font-size: 13px !important;
+}
+
+/* Tombol Delete */
+.fi-header-actions .fi-btn {
+    font-size: 13px !important;
+}
+
+/* =========================================================
+   FORM SPACING
+   ========================================================= */
+
+.collaboration-section + .collaboration-section {
+    margin-top: 18px !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .collaboration-section .fi-section-content {
+        padding: 16px !important;
+    }
+
+    .fi-header-heading {
+        font-size: 21px !important;
+    }
+}
