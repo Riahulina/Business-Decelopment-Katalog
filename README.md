@@ -1,58 +1,186 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BD Katalog
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Katalog digital produk mahasiswa untuk **Business Development**, tempat memperkenalkan produk, karya, dan potensi bisnis mahasiswa dalam satu platform.
 
-## About Laravel
+Demo: https://katalogbd.usri.cloud
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+BD Katalog adalah **digital storefront**, bukan marketplace. Pengunjung dapat melihat produk, mencari berdasarkan nama atau kategori, mengenal mahasiswa di balik setiap produk, lalu memesan langsung melalui WhatsApp penjual.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Platform terdiri dari tiga bagian:
 
-## Learning Laravel
+- **Website publik** untuk pengunjung.
+- **Dashboard reseller** untuk mahasiswa yang mengelola profil dan mengajukan produk.
+- **Panel Super Admin** (Filament) untuk mengelola data dan menyetujui produk.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Features
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Website publik**
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- Katalog produk dengan pencarian dan filter kategori
+- Detail produk: galeri foto, keunggulan, dan produk serupa
+- Produk populer dan produk baru
+- Profil mahasiswa penjual ("Sosok di Balik Produk")
+- Tombol pesan via WhatsApp
+- Halaman Tentang BD, Kolaborasi, Kabar Terbaru, dan Kontak
+- Chatbot FAQ
+- Responsive
 
-## Agentic Development
+**Reseller**
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- Registrasi dan login
+- Dashboard ringkasan produk
+- Kelola profil dan foto profil
+- Tambah produk dengan banyak foto dan daftar keunggulan
+- Pantau status produk dan alasan penolakan
 
-```bash
-composer require laravel/boost --dev
+**Super Admin**
 
-php artisan boost:install
+- Kelola kategori, reseller, dan produk
+- Setujui atau tolak produk
+- Kelola berita, kolaborasi, dan FAQ chatbot
+
+## Alur Persetujuan Produk
+
+```text
+Reseller menambah produk → Pending → Super Admin
+                                      ├─ Approve → tampil di katalog publik
+                                      └─ Reject  → reseller melihat alasan penolakan
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Status produk: `pending`, `approved`, `rejected`. Hanya produk `approved` yang tampil di katalog.
 
-## Contributing
+## Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+PHP 8.2+, Laravel, MySQL, Blade, Filament, Vite.
 
-## Code of Conduct
+## Requirements
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- PHP 8.2 atau lebih baru
+- Composer
+- Node.js 20+ dan npm
+- MySQL
+- Git
+- Ekstensi PHP
 
-## Security Vulnerabilities
+Pengguna Windows disarankan memakai **Laragon**.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Installation
+
+**1. Clone repository**
+
+```bash
+git clone https://github.com/Riahulina/Business-Decelopment-Katalog
+cd REPOSITORY
+```
+
+**2. Install dependency**
+
+```bash
+composer install
+npm install
+```
+
+**3. Buat file `.env`**
+
+```bash
+cp .env.example .env
+```
+
+Pengguna Windows PowerShell: `Copy-Item .env.example .env`
+
+**4. Atur database di `.env`**
+
+```env
+APP_URL=http://127.0.0.1:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bd-katalog
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+**5. Buat database**
+
+```sql
+CREATE DATABASE bd-katalog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+**6. Generate key, migrasi, dan data awal**
+
+```bash
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+```
+
+**7. Build frontend dan jalankan**
+
+```bash
+npm run build
+php artisan serve
+```
+
+Buka `http://127.0.0.1:8000`.
+
+Untuk development, jalankan `npm run dev` di terminal kedua.
+
+## Akses
+
+| Bagian             | URL          |
+| ------------------ | ------------ |
+| Website            | `/`          |
+| Katalog produk     | `/produk`    |
+| Dashboard reseller | `/dashboard` |
+| Panel Super Admin  | `/admin`     |
+
+Akun reseller dibuat melalui halaman **Daftar**. Panel admin hanya dapat diakses akun dengan role Super Admin.
+
+## Database
+
+| Tabel                | Isi                           |
+| -------------------- | ----------------------------- |
+| `users`              | Akun dan role                 |
+| `resellers`          | Profil mahasiswa penjual      |
+| `categories`         | Kategori produk               |
+| `products`           | Produk dan status persetujuan |
+| `product_images`     | Foto produk                   |
+| `product_highlights` | Keunggulan produk             |
+| `news`               | Berita                        |
+| `collaborations`     | Kolaborasi                    |
+
+## Deployment
+
+```bash
+composer install --no-dev --optimize-autoloader
+npm install && npm run build
+cp .env.example .env
+php artisan key:generate
+```
+
+Atur `.env` production:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://domain-website.com
+```
+
+Lalu isi konfigurasi database dan jalankan:
+
+```bash
+php artisan migrate --force
+php artisan db:seed --force
+php artisan storage:link
+php artisan optimize
+```
+
+Arahkan document root server ke folder `public`. Folder `storage` dan `bootstrap/cache` harus dapat ditulis oleh web server.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Dibuat untuk kebutuhan Business Development dan kompetisi pengembangan website.
