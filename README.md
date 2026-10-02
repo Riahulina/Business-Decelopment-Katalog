@@ -1,78 +1,78 @@
-# BD Katalog
+<div align="center">
 
-Katalog digital produk mahasiswa untuk **Business Development**, tempat memperkenalkan produk, karya, dan potensi bisnis mahasiswa dalam satu platform.
+# 🛍️ BD Katalog
 
-Demo: https://katalogbd.usri.cloud
+**Katalog digital produk mahasiswa untuk Business Development**
+<br>
+Tempat memperkenalkan produk, karya, dan potensi bisnis mahasiswa dalam satu platform.
 
-## Overview
+<br>
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-katalogbd.usri.cloud-2b7fff?style=for-the-badge&logo=googlechrome&logoColor=white)](https://katalogbd.usri.cloud)
+
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=flat-square&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat-square&logo=php&logoColor=white)
+![Filament](https://img.shields.io/badge/Filament-FDAE4B?style=flat-square&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+
+[Fitur](#-fitur) · [Alur](#-alur-persetujuan-produk) · [Instalasi](#-instalasi) · [Akses](#-akses) · [Deployment](#-deployment)
+
+</div>
+
+---
+
+## 📌 Overview
 
 BD Katalog adalah **digital storefront**, bukan marketplace. Pengunjung dapat melihat produk, mencari berdasarkan nama atau kategori, mengenal mahasiswa di balik setiap produk, lalu memesan langsung melalui WhatsApp penjual.
 
-Platform terdiri dari tiga bagian:
+| Bagian                    | Untuk      | Fungsi                                                       |
+| ------------------------- | ---------- | ------------------------------------------------------------ |
+| 🌐 **Website publik**     | Pengunjung | Melihat katalog, berita, kolaborasi, dan menghubungi penjual |
+| 👤 **Dashboard reseller** | Mahasiswa  | Mengelola profil dan mengajukan produk                       |
+| 🛡️ **Panel Super Admin**  | Admin BD   | Mengelola data dan menyetujui produk                         |
 
-- **Website publik** untuk pengunjung.
-- **Dashboard reseller** untuk mahasiswa yang mengelola profil dan mengajukan produk.
-- **Panel Super Admin** (Filament) untuk mengelola data dan menyetujui produk.
+## ✨ Fitur
 
-## Features
+| 🌐 Website publik                                                                                                                                                                                                                                                                  | 👤 Reseller                                                                                                                                                             | 🛡️ Super Admin                                                                                                           |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Katalog dengan pencarian dan filter kategori<br>Detail produk: galeri, keunggulan, produk serupa<br>Produk populer dan produk baru<br>Profil penjual ("Sosok di Balik Produk")<br>Pesan via WhatsApp<br>Tentang BD, Kolaborasi, Kabar Terbaru, Kontak<br>Chatbot FAQ<br>Responsive | Registrasi dan login<br>Dashboard ringkasan produk<br>Kelola profil dan foto profil<br>Tambah produk, banyak foto, dan keunggulan<br>Pantau status dan alasan penolakan | Kelola kategori, reseller, dan produk<br>Setujui atau tolak produk<br>Kelola berita dan kolaborasi<br>Kelola FAQ chatbot |
 
-**Website publik**
+## 🔄 Alur Persetujuan Produk
 
-- Katalog produk dengan pencarian dan filter kategori
-- Detail produk: galeri foto, keunggulan, dan produk serupa
-- Produk populer dan produk baru
-- Profil mahasiswa penjual ("Sosok di Balik Produk")
-- Tombol pesan via WhatsApp
-- Halaman Tentang BD, Kolaborasi, Kabar Terbaru, dan Kontak
-- Chatbot FAQ
-- Responsive
-
-**Reseller**
-
-- Registrasi dan login
-- Dashboard ringkasan produk
-- Kelola profil dan foto profil
-- Tambah produk dengan banyak foto dan daftar keunggulan
-- Pantau status produk dan alasan penolakan
-
-**Super Admin**
-
-- Kelola kategori, reseller, dan produk
-- Setujui atau tolak produk
-- Kelola berita, kolaborasi, dan FAQ chatbot
-
-## Alur Persetujuan Produk
-
-```text
-Reseller menambah produk → Pending → Super Admin
-                                      ├─ Approve → tampil di katalog publik
-                                      └─ Reject  → reseller melihat alasan penolakan
+```mermaid
+flowchart LR
+    A[Reseller menambah produk] --> B[Pending]
+    B --> C{Super Admin}
+    C -->|Approve| D[Tampil di katalog publik]
+    C -->|Reject| E[Reseller melihat alasan penolakan]
 ```
 
 Status produk: `pending`, `approved`, `rejected`. Hanya produk `approved` yang tampil di katalog.
 
-## Tech Stack
+## 🧰 Tech Stack
 
-PHP 8.2+, Laravel, MySQL, Blade, Filament, Vite.
+PHP 8.2+ · Laravel · MySQL · Blade · Filament · Vite
 
-## Requirements
+## ⚙️ Requirements
 
 - PHP 8.2 atau lebih baru
 - Composer
 - Node.js 20+ dan npm
 - MySQL
 - Git
-- Ekstensi PHP
+- Ekstensi PHP: `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `tokenizer`, `xml`, `intl`
 
-Pengguna Windows disarankan memakai **Laragon**.
+> [!TIP]
+> Pengguna Windows disarankan memakai **Laragon**, karena PHP, MySQL, dan Composer sudah tersedia.
 
-## Installation
+## 🚀 Instalasi
 
 **1. Clone repository**
 
 ```bash
-git clone https://github.com/Riahulina/Business-Decelopment-Katalog
-cd REPOSITORY
+git clone https://github.com/Riahulina/Business-Decelopment-Katalog.git
+cd Business-Decelopment-Katalog
 ```
 
 **2. Install dependency**
@@ -88,7 +88,7 @@ npm install
 cp .env.example .env
 ```
 
-Pengguna Windows PowerShell: `Copy-Item .env.example .env`
+> Windows PowerShell: `Copy-Item .env.example .env`
 
 **4. Atur database di `.env`**
 
@@ -98,7 +98,7 @@ APP_URL=http://127.0.0.1:8000
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=bd-katalog
+DB_DATABASE=bd_katalog
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -106,7 +106,7 @@ DB_PASSWORD=
 **5. Buat database**
 
 ```sql
-CREATE DATABASE bd-katalog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE bd_katalog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 **6. Generate key, migrasi, dan data awal**
@@ -125,11 +125,12 @@ npm run build
 php artisan serve
 ```
 
-Buka `http://127.0.0.1:8000`.
+Buka **http://127.0.0.1:8000**
 
-Untuk development, jalankan `npm run dev` di terminal kedua.
+> [!NOTE]
+> Untuk development, jalankan `npm run dev` di terminal kedua.
 
-## Akses
+## 🔑 Akses
 
 | Bagian             | URL          |
 | ------------------ | ------------ |
@@ -140,7 +141,7 @@ Untuk development, jalankan `npm run dev` di terminal kedua.
 
 Akun reseller dibuat melalui halaman **Daftar**. Panel admin hanya dapat diakses akun dengan role Super Admin.
 
-## Database
+## 🗄️ Database
 
 | Tabel                | Isi                           |
 | -------------------- | ----------------------------- |
@@ -153,7 +154,12 @@ Akun reseller dibuat melalui halaman **Daftar**. Panel admin hanya dapat diakses
 | `news`               | Berita                        |
 | `collaborations`     | Kolaborasi                    |
 
-## Deployment
+## 🌍 Deployment
+
+<details>
+<summary><b>Klik untuk melihat langkah deployment ke server</b></summary>
+
+<br>
 
 ```bash
 composer install --no-dev --optimize-autoloader
@@ -167,10 +173,10 @@ Atur `.env` production:
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://domain-website.com
+APP_URL=https://domain-anda.com
 ```
 
-Lalu isi konfigurasi database dan jalankan:
+Isi konfigurasi database, lalu jalankan:
 
 ```bash
 php artisan migrate --force
@@ -179,8 +185,13 @@ php artisan storage:link
 php artisan optimize
 ```
 
-Arahkan document root server ke folder `public`. Folder `storage` dan `bootstrap/cache` harus dapat ditulis oleh web server.
+> [!WARNING]
+> Arahkan document root server ke folder `public`. Folder `storage` dan `bootstrap/cache` harus dapat ditulis oleh web server. Jangan jalankan `migrate:fresh` di production karena akan menghapus seluruh data.
 
-## License
+</details>
 
-Dibuat untuk kebutuhan Business Development dan kompetisi pengembangan website.
+---
+
+<div align="center">
+<sub>Dibuat untuk kebutuhan Business Development dan kompetisi pengembangan website.</sub>
+</div>
