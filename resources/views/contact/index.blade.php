@@ -8,8 +8,8 @@
 
     @php
         // ====== GANTI DENGAN NOMOR ADMIN ======
-        $wa = '6283837974029'; // format 62..., tanpa + dan tanpa spasi
-        $waLabel = '+62 838-3797-4029'; // tampilan di halaman
+        $wa = '6289508721206'; // format 62..., tanpa + dan tanpa spasi
+        $waLabel = '+62 895-0872-1206'; // tampilan di halaman
         // ======================================
 
         $waLink = fn(string $text) => 'https://wa.me/' . $wa . '?text=' . rawurlencode($text);
@@ -40,14 +40,14 @@
             [
                 'icon' => 'cam',
                 'label' => 'Instagram HMPS',
-                'value' => '@hmps.contoh',
-                'href' => 'https://instagram.com/hmps.contoh',
+                'value' => '@HMPS MANAJEMEN INFORMATIKA POLMED',
+                'href' => 'https://www.instagram.com/hmps.mi?stkn=MXJybmlzd3U2YzByeQ==',
             ],
             [
                 'icon' => 'cam',
                 'label' => 'Instagram BD',
-                'value' => '@bd.studentmarketplace',
-                'href' => 'https://instagram.com/bd.studentmarketplace',
+                'value' => '@BD HMPS MI POLMED',
+                'href' => 'https://www.instagram.com/bussinessdevelopmentmi?stkn=M2dud3E5Y2N1eGR1',
             ],
             ['icon' => 'pin', 'label' => 'Sekretariat', 'value' => 'Gedung Kemahasiswaan, Lantai 2', 'href' => null],
         ];

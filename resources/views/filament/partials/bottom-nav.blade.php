@@ -1,3 +1,14 @@
+<style>
+    @media (max-width: 1023px) {
+        body.fi-body {
+            padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important;
+        }
+    }
+</style>
+
+<nav class="bd-bottom-nav">
+    {{-- isi nav kamu tetap sama --}}
+</nav>
 <nav class="bd-bottom-nav">
     <a href="{{ \App\Filament\Pages\Dashboard::getUrl() }}"
         class="bd-bn-item {{ request()->routeIs('filament.admin.pages.dashboard') ? 'on' : '' }}">

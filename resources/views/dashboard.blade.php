@@ -2,195 +2,166 @@
 
 @section('title', 'Dashboard – BD')
 
+@php
+    $reseller = auth()->user()->reseller;
+    $name = $reseller?->nama_lengkap ?? auth()->user()->name;
+    $initial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($name, 0, 1));
+    $photo = $reseller?->foto ? asset('storage/' . $reseller->foto) : null;
+
+    $stats = [
+        ['label' => 'Total Produk', 'value' => $totalProducts, 'icon' => 'bag', 'tone' => 'blue'],
+        ['label' => 'Disetujui', 'value' => $approvedProducts, 'icon' => 'check', 'tone' => 'green'],
+        ['label' => 'Menunggu', 'value' => $pendingProducts, 'icon' => 'clock', 'tone' => 'yellow'],
+        ['label' => 'Ditolak', 'value' => $rejectedProducts, 'icon' => 'close', 'tone' => 'red'],
+    ];
+
+    $statusMap = [
+        'approved' => ['Disetujui', 'approved'],
+        'pending' => ['Menunggu', 'pending'],
+        'rejected' => ['Ditolak', 'rejected'],
+    ];
+@endphp
+
+
 @section('content')
 
-    <div class="dash-top">
+    {{-- ================= HERO ================= --}}
+    <section class="res-hero">
 
-        <div>
-            <p class="dash-eyebrow">Dashboard Reseller</p>
+        <div class="res-welcome">
 
-            <h1 class="dash-h1">
-                Selamat datang,
-                {{ auth()->user()->reseller?->nama_lengkap ?? auth()->user()->name }}
-                👋
-            </h1>
+            <div class="res-welcome-eyebrow">
+                <span></span>
+                Dashboard Reseller
+            </div>
 
-            <p class="dash-sub">
-                Kelola produk dan profil bisnis kamu di BD Katalog.
-            </p>
+            <h1>Halo, {{ $name }} 👋</h1>
+
+            <p>Kelola produk dan profil bisnis kamu di BD Katalog.</p>
+
+            <div class="res-hero-actions">
+                <a href="{{ route('reseller.products.create') }}" class="btn p">
+                    <x-i n="plus" />
+                    Tambah Produk
+                </a>
+
+                <a href="{{ route('reseller.profile') }}" class="btn o">
+                    Kelola Profil
+                </a>
+            </div>
+
         </div>
 
-        <div class="dash-user">
 
-            <div class="av lg">
-                <x-i n="user" />
+        <div class="res-profile-mini">
+
+            <div class="res-avatar">
+                @if ($photo)
+                    <img src="{{ $photo }}" alt="{{ $name }}">
+                @else
+                    {{ $initial }}
+                @endif
             </div>
 
             <div>
-                <strong>
-                    {{ auth()->user()->reseller?->nama_lengkap ?? auth()->user()->name }}
-                </strong>
-
+                <strong>{{ $name }}</strong>
                 <span>Reseller</span>
             </div>
 
         </div>
 
-    </div>
+    </section>
 
 
-    {{-- ================================
-         STATISTIK PRODUK
-    ================================= --}}
+    {{-- ================= STATISTIK ================= --}}
+    <section class="res-stats">
 
-    <div class="dash-stats">
+        @foreach ($stats as $stat)
+            <div class="res-stat res-stat-{{ $stat['tone'] }}">
 
-        <div class="dash-stat">
-
-            <div class="si blue">
-                <x-i n="bag" />
-            </div>
-
-            <div>
-                <span>Total Produk</span>
-                <strong>{{ $totalProducts }}</strong>
-            </div>
-
-        </div>
-
-
-        <div class="dash-stat">
-
-            <div class="si ok">
-                <x-i n="check" />
-            </div>
-
-            <div>
-                <span>Disetujui</span>
-                <strong>{{ $approvedProducts }}</strong>
-            </div>
-
-        </div>
-
-
-        <div class="dash-stat">
-
-            <div class="si warn">
-                <x-i n="clock" />
-            </div>
-
-            <div>
-                <span>Menunggu</span>
-                <strong>{{ $pendingProducts }}</strong>
-            </div>
-
-        </div>
-
-
-        <div class="dash-stat">
-
-            <div class="si bad">
-                <x-i n="close" />
-            </div>
-
-            <div>
-                <span>Ditolak</span>
-                <strong>{{ $rejectedProducts }}</strong>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {{-- ================================
-         DASHBOARD CONTENT
-    ================================= --}}
-
-    <div class="dash-grid">
-
-        {{-- PRODUK TERBARU --}}
-        <section class="dash-card">
-
-            <div class="dash-card-h">
-
-                <div>
-
-                    <p class="dash-eyebrow">
-                        Produk
-                    </p>
-
-                    <h2>
-                        Produk Terbaru
-                    </h2>
-
+                <div class="res-stat-icon">
+                    <x-i :n="$stat['icon']" />
                 </div>
 
-                <a href="{{ route('reseller.products') }}" class="dash-more">
-                    Lihat Semua
+                <div class="res-stat-content">
+                    <span>{{ $stat['label'] }}</span>
+                    <strong>{{ $stat['value'] }}</strong>
+                </div>
+
+            </div>
+        @endforeach
+
+    </section>
+
+
+    {{-- ================= KONTEN UTAMA ================= --}}
+    <div class="res-dashboard-grid">
+
+        {{-- PRODUK TERBARU --}}
+        <section class="res-panel">
+
+            <div class="res-panel-head">
+
+                <div>
+                    <span class="res-panel-eyebrow">Katalog Saya</span>
+                    <h2>Produk Terbaru</h2>
+                    <p>Produk yang terakhir kamu tambahkan.</p>
+                </div>
+
+                <a href="{{ route('reseller.products') }}" class="res-view-all">
+                    Lihat semua
                     <x-i n="arr" />
                 </a>
 
             </div>
 
 
-            @if ($recentProducts->count())
+            @forelse ($recentProducts as $product)
+                @php
+                    [$statusLabel, $statusClass] = $statusMap[$product->status] ?? $statusMap['rejected'];
+                    $image = $product->images->first();
+                @endphp
 
-                <div class="dash-products">
+                <a href="{{ route('reseller.products.show', $product->id) }}" class="res-product-row">
 
-                    @foreach ($recentProducts as $product)
-                        <div class="dash-product">
+                    <div class="res-product-thumb">
+                        @if ($image)
+                            <img src="{{ asset('storage/' . $image->image) }}" alt="{{ $product->name }}">
+                        @else
+                            <x-i n="bag" />
+                        @endif
+                    </div>
 
-                            <div class="dash-product-info">
+                    <div class="res-product-main">
+                        <strong>{{ $product->name }}</strong>
 
-                                <strong>
-                                    {{ $product->name }}
-                                </strong>
+                        <span>
+                            {{ $product->category?->name ?? 'Produk' }}
+                            <span class="res-price-m">· Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                        </span>
+                    </div>
 
-                                <span>
-                                    {{ $product->category?->name ?? 'Produk' }}
-                                </span>
+                    <div class="res-product-price">
+                        Rp {{ number_format($product->price, 0, ',', '.') }}
+                    </div>
 
-                            </div>
+                    <span class="res-status {{ $statusClass }}">{{ $statusLabel }}</span>
 
+                    <span class="res-product-arrow"><x-i n="arr" /></span>
 
-                            <div class="dash-product-status">
+                </a>
 
-                                @if ($product->status === 'approved')
-                                    <span class="status approved">
-                                        Disetujui
-                                    </span>
-                                @elseif ($product->status === 'pending')
-                                    <span class="status pending">
-                                        Menunggu
-                                    </span>
-                                @else
-                                    <span class="status rejected">
-                                        Ditolak
-                                    </span>
-                                @endif
+            @empty
 
-                            </div>
+                <div class="res-empty">
 
-                        </div>
-                    @endforeach
-
-                </div>
-            @else
-                <div class="dash-empty">
-
-                    <div class="dash-empty-ic">
+                    <div class="res-empty-icon">
                         <x-i n="bag" />
                     </div>
 
-                    <h3>
-                        Belum ada produk
-                    </h3>
+                    <h3>Belum ada produk</h3>
 
-                    <p>
-                        Tambahkan produk pertamamu dan mulai tampilkan
-                        karyamu di BD Katalog.
-                    </p>
+                    <p>Tambahkan produk pertamamu dan mulai tampilkan karyamu di BD Katalog.</p>
 
                     <a href="{{ route('reseller.products.create') }}" class="btn p">
                         <x-i n="plus" />
@@ -198,53 +169,97 @@
                     </a>
 
                 </div>
-
-            @endif
+            @endforelse
 
         </section>
 
 
-        {{-- INFORMASI --}}
-        <section class="dash-card">
+        {{-- PROFIL & BANTUAN --}}
+        <section class="res-side-panel">
 
-            <div class="dash-card-h">
+            <div class="res-side-top">
+
+                <span class="res-panel-eyebrow">Profil Reseller</span>
+
+                <h2>Bangun etalase<br>bisnismu.</h2>
+
+                <p>
+                    Pastikan profil dan produk kamu selalu diperbarui
+                    agar lebih mudah dikenal mahasiswa lain.
+                </p>
+
+            </div>
+
+
+            <div class="res-profile-box">
+
+                <div class="res-avatar">
+                    @if ($photo)
+                        <img src="{{ $photo }}" alt="{{ $name }}">
+                    @else
+                        {{ $initial }}
+                    @endif
+                </div>
 
                 <div>
-
-                    <p class="dash-eyebrow">
-                        Informasi
-                    </p>
-
-                    <h2>
-                        Perlu Bantuan?
-                    </h2>
-
+                    <strong>{{ $name }}</strong>
+                    <span>{{ $reseller?->prodi ?? 'Reseller BD' }}</span>
                 </div>
 
             </div>
 
 
-            <div class="dash-info">
+            <a href="{{ route('reseller.profile') }}" class="res-profile-btn">
+                Lengkapi Profil
+                <x-i n="arr" />
+            </a>
 
-                <div class="dash-info-ic">
+
+            <div class="res-help-mini">
+
+                <div class="res-help-icon">
                     <x-i n="chat" />
                 </div>
 
-                <p>
-                    Bingung cara menambahkan produk atau mengelola
-                    profilmu? Hubungi Business Development untuk
-                    mendapatkan bantuan.
-                </p>
+                <div>
+                    <strong>Butuh bantuan?</strong>
 
-                <a href="{{ route('contact') }}" class="btn o">
-                    Hubungi BD
-                    <x-i n="arr" />
-                </a>
+                    <p>Hubungi Business Development jika mengalami kendala.</p>
+
+                    <a href="{{ route('contact') }}">
+                        Hubungi BD
+                        <x-i n="arr" />
+                    </a>
+                </div>
 
             </div>
 
         </section>
 
     </div>
+
+
+    {{-- ================= INFO BAWAH ================= --}}
+    <section class="res-bottom-info">
+
+        <div class="res-bottom-icon">
+            <x-i n="sparkle" />
+        </div>
+
+        <div>
+            <strong>Jadikan produkmu lebih dikenal.</strong>
+
+            <p>
+                Pastikan foto, deskripsi, harga, dan informasi produk
+                sudah lengkap sebelum diajukan.
+            </p>
+        </div>
+
+        <a href="{{ route('reseller.products.create') }}" class="res-bottom-btn">
+            Tambah Produk
+            <x-i n="arr" />
+        </a>
+
+    </section>
 
 @endsection

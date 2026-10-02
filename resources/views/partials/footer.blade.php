@@ -9,10 +9,11 @@
 
     // Isi href dengan link akun aslinya. Yang null tidak ditampilkan.
     $socials = [
-        ['icon' => 'cam', 'label' => 'Instagram', 'href' => 'https://instagram.com/bd.studentmarketplace'],
-        ['icon' => 'music', 'label' => 'TikTok', 'href' => null],
-        ['icon' => 'play', 'label' => 'YouTube', 'href' => null],
-        ['icon' => 'mail', 'label' => 'Hubungi kami', 'href' => route('contact')],
+        [
+            'icon' => 'cam',
+            'label' => 'Instagram',
+            'href' => 'https://www.instagram.com/bussinessdevelopmentmi?stkn=M2dud3E5Y2N1eGR1',
+        ],
     ];
 @endphp
 
@@ -73,19 +74,23 @@
                 <ul class="ft-contact">
                     <li>
                         <x-i n="chat" />
-                        <a href="{{ route('contact') }}">Chat admin via WhatsApp</a>
+                        <a href="https://wa.me/6289508721206?text=Halo%20Admin%20BD%2C%20saya%20ingin%20bertanya%20seputar%20BD."
+                            target="_blank" rel="noopener">
+                            Chat admin via WhatsApp
+                        </a>
                     </li>
 
                     <li>
                         <x-i n="cam" />
-                        <a href="https://instagram.com/bd.studentmarketplace" target="_blank" rel="noopener">
+                        <a href="https://www.instagram.com/bussinessdevelopmentmi?stkn=M2dud3E5Y2N1eGR1" target="_blank"
+                            rel="noopener">
                             @bd.studentmarketplace
                         </a>
                     </li>
 
                     <li>
                         <x-i n="pin" />
-                        <span>Gedung Kemahasiswaan, Lantai 2</span>
+                        <span>Lantai 1 Gedung N, Kesekretariatan Manajemen Informatika/span>
                     </li>
                 </ul>
             </div>

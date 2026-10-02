@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->brandName('BD Admin')
+            ->favicon(asset('images/Logo.png'))
             ->userMenu(position: UserMenuPosition::Sidebar)
             ->colors([
                 'primary' => Color::hex('#0a2f74'),

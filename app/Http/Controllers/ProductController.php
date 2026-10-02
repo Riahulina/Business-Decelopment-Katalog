@@ -44,6 +44,13 @@ class ProductController extends Controller
             ->take(3)
             ->get();
 
+        $newProducts = Product::with(['reseller', 'category', 'images'])
+            ->where('status', 'approved')
+            ->where('is_new', true)
+            ->latest()
+            ->take(3)
+            ->get();
+
         $categories = Category::withCount([
             'products' => function ($query) {
                 $query->where('status', 'approved');
@@ -61,6 +68,7 @@ class ProductController extends Controller
             'products',
             'categories',
             'popularProducts',
+            'newProducts',
             'resellers'
         ));
     }

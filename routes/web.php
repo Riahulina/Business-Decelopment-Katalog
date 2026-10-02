@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/dashboard/profil', [App\Http\Controllers\ResellerProfileController::class, 'update'])->name('reseller.profile.update');
     Route::get('/dashboard/products/create', [App\Http\Controllers\ResellerProductController::class, 'create'])->name('reseller.products.create');
     Route::post('/dashboard/products', [App\Http\Controllers\ResellerProductController::class, 'store'])->name('reseller.products.store');
+    Route::get('/dashboard/products/{id}', [App\Http\Controllers\ResellerProductController::class, 'show'])->name('reseller.products.show');
+    Route::delete('/dashboard/products/{id}', [App\Http\Controllers\ResellerProductController::class, 'destroy'])->name('reseller.products.destroy');
 });
 
 

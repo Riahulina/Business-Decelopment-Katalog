@@ -42,7 +42,7 @@ class SiteSettingSeeder extends Seeder
 
             [
                 'key' => 'whatsapp',
-                'value' => '6281234567890',
+                'value' => '6289508721206',
             ],
             [
                 'key' => 'instagram',
