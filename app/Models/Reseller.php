@@ -28,4 +28,18 @@ class Reseller extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function getFotoUrlAttribute(): ?string
+    {
+        if (! $this->foto) {
+            return null;
+        }
+
+
+        if (str_starts_with($this->foto, 'images/')) {
+            return asset($this->foto);
+        }
+
+
+        return asset('storage/' . $this->foto);
+    }
 }

@@ -16,7 +16,8 @@ class ResellersTable
                 ImageColumn::make('foto')
                     ->label('')
                     ->circular()
-                    ->defaultImageUrl(url('/images/default-avatar.png')),
+                    ->getStateUsing(fn($record) => $record->foto_url)
+                    ->defaultImageUrl(fn($record) => 'https://ui-avatars.com/api/?background=random&name=' . urlencode($record->nama_lengkap)),
 
                 TextColumn::make('nama_lengkap')
                     ->label('Nama Lengkap')

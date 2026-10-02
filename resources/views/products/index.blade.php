@@ -309,9 +309,9 @@
                                     {{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($reseller->nama_lengkap, 0, 1)) }}
                                 </span>
 
-                                @if ($reseller->foto)
-                                    <img src="{{ asset('storage/' . $reseller->foto) }}"
-                                        alt="{{ $reseller->nama_lengkap }}" loading="lazy" onerror="this.remove()">
+                                @if ($reseller->foto_url)
+                                    <img src="{{ $reseller->foto_url }}" alt="{{ $reseller->nama_lengkap }}"
+                                        loading="lazy" onerror="this.remove()">
                                 @endif
                             </div>
 
