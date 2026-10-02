@@ -23,24 +23,32 @@ class ViewReseller extends ViewRecord
     {
         return $schema
             ->components([
+
+                /*
+                |--------------------------------------------------------------------------
+                | PROFIL UTAMA
+                |--------------------------------------------------------------------------
+                */
+
                 Section::make('Profil Reseller')
-                    ->description('Detail informasi akun dan kontak reseller')
+                    ->description('Informasi dasar mahasiswa yang terdaftar sebagai reseller.')
                     ->icon('heroicon-o-user-circle')
+                    ->extraAttributes([
+                        'class' => 'reseller-profile-section',
+                    ])
                     ->columnSpanFull()
                     ->schema([
 
                         Grid::make(3)
                             ->schema([
 
-                                // =========================
-                                // FOTO PROFIL
-                                // =========================
+                                /*
+                                | FOTO
+                                */
+
                                 ImageEntry::make('foto')
                                     ->hiddenLabel()
                                     ->circular()
-                                    ->extraImgAttributes([
-                                        'class' => 'w-40 h-40 shadow-lg border-4 border-white object-cover mx-auto',
-                                    ])
                                     ->getStateUsing(
                                         fn($record) => $record->foto_url
                                     )
@@ -49,79 +57,156 @@ class ViewReseller extends ViewRecord
                                         'https://ui-avatars.com/api/?background=random&name=' .
                                             urlencode($record->nama_lengkap)
                                     )
+                                    ->extraImgAttributes([
+                                        'class' => 'reseller-profile-photo',
+                                    ])
                                     ->columnSpan(1),
 
-                                // =========================
-                                // INFORMASI RESELLER
-                                // =========================
+                                /*
+                                | DATA UTAMA
+                                */
+
                                 Grid::make(2)
                                     ->schema([
 
                                         TextEntry::make('nama_lengkap')
                                             ->label('Nama Lengkap')
+                                            ->icon('heroicon-o-user')
                                             ->weight('bold')
                                             ->size('lg')
-                                            ->icon('heroicon-o-user')
                                             ->extraAttributes([
-                                                'class' => 'bg-blue-50 border border-blue-100 rounded-xl p-4 shadow-sm',
+                                                'class' => 'reseller-info-card reseller-blue',
                                             ]),
 
                                         TextEntry::make('prodi')
                                             ->label('Program Studi')
+                                            ->icon('heroicon-o-academic-cap')
                                             ->badge()
                                             ->color('info')
-                                            ->icon('heroicon-o-academic-cap')
                                             ->extraAttributes([
-                                                'class' => 'bg-indigo-50 border border-indigo-100 rounded-xl p-4 shadow-sm',
+                                                'class' => 'reseller-info-card reseller-indigo',
                                             ]),
 
                                         TextEntry::make('whatsapp')
                                             ->label('Nomor WhatsApp')
                                             ->icon('heroicon-o-phone')
                                             ->copyable()
-                                            ->placeholder('-')
+                                            ->placeholder('Belum ditambahkan')
                                             ->extraAttributes([
-                                                'class' => 'bg-emerald-50 border border-emerald-100 rounded-xl p-4 shadow-sm',
-                                            ]),
-
-                                        TextEntry::make('instagram')
-                                            ->label('Instagram')
-                                            ->icon('heroicon-o-at-symbol')
-                                            ->placeholder('-')
-                                            ->extraAttributes([
-                                                'class' => 'bg-pink-50 border border-pink-100 rounded-xl p-4 shadow-sm',
-                                            ]),
-
-                                        TextEntry::make('tiktok')
-                                            ->label('TikTok')
-                                            ->icon('heroicon-o-video-camera')
-                                            ->placeholder('-')
-                                            ->extraAttributes([
-                                                'class' => 'bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm',
+                                                'class' => 'reseller-info-card reseller-green',
                                             ]),
 
                                         TextEntry::make('created_at')
                                             ->label('Tanggal Bergabung')
-                                            ->dateTime('d F Y')
                                             ->icon('heroicon-o-calendar')
+                                            ->dateTime('d F Y')
                                             ->placeholder('-')
                                             ->extraAttributes([
-                                                'class' => 'bg-amber-50 border border-amber-100 rounded-xl p-4 shadow-sm',
+                                                'class' => 'reseller-info-card reseller-orange',
                                             ]),
 
                                         TextEntry::make('bio')
                                             ->label('Bio / Deskripsi Profil')
-                                            ->markdown()
+                                            ->icon('heroicon-o-document-text')
                                             ->placeholder('Belum ada bio yang ditambahkan.')
                                             ->columnSpanFull()
                                             ->extraAttributes([
-                                                'class' => 'bg-violet-50 border border-violet-100 rounded-xl p-4 shadow-sm',
+                                                'class' => 'reseller-info-card reseller-purple',
                                             ]),
 
                                     ])
                                     ->columnSpan(2),
+
                             ]),
                     ]),
+
+                /*
+                |--------------------------------------------------------------------------
+                | INFORMASI KONTAK
+                |--------------------------------------------------------------------------
+                */
+
+                Section::make('Informasi Kontak')
+                    ->description('Informasi yang dapat digunakan untuk menghubungi reseller.')
+                    ->icon('heroicon-o-identification')
+                    ->extraAttributes([
+                        'class' => 'reseller-section reseller-contact-section',
+                    ])
+                    ->columnSpanFull()
+                    ->schema([
+
+                        Grid::make(3)
+                            ->schema([
+
+                                TextEntry::make('user.email')
+                                    ->label('Email Akun')
+                                    ->icon('heroicon-o-envelope')
+                                    ->copyable()
+                                    ->placeholder('Belum tersedia')
+                                    ->extraAttributes([
+                                        'class' => 'contact-item',
+                                    ]),
+
+                                TextEntry::make('whatsapp')
+                                    ->label('Nomor WhatsApp')
+                                    ->icon('heroicon-o-phone')
+                                    ->copyable()
+                                    ->placeholder('Belum tersedia')
+                                    ->extraAttributes([
+                                        'class' => 'contact-item contact-wa',
+                                    ]),
+
+                                TextEntry::make('created_at')
+                                    ->label('Tanggal Bergabung')
+                                    ->icon('heroicon-o-calendar')
+                                    ->dateTime('d F Y')
+                                    ->placeholder('-')
+                                    ->extraAttributes([
+                                        'class' => 'contact-item',
+                                    ]),
+
+                            ]),
+                    ]),
+
+                /*
+                |--------------------------------------------------------------------------
+                | MEDIA SOSIAL
+                |--------------------------------------------------------------------------
+                */
+
+                Section::make('Media Sosial')
+                    ->description('Akun media sosial yang terhubung dengan profil reseller.')
+                    ->icon('heroicon-o-share')
+                    ->extraAttributes([
+                        'class' => 'reseller-section reseller-social-section',
+                    ])
+                    ->columnSpanFull()
+                    ->schema([
+
+                        Grid::make(2)
+                            ->schema([
+
+                                TextEntry::make('instagram')
+                                    ->label('Instagram')
+                                    ->icon('heroicon-o-at-symbol')
+                                    ->placeholder('Belum ditambahkan')
+                                    ->copyable()
+                                    ->extraAttributes([
+                                        'class' => 'social-item instagram-item',
+                                    ]),
+
+                                TextEntry::make('tiktok')
+                                    ->label('TikTok')
+                                    ->icon('heroicon-o-video-camera')
+                                    ->placeholder('Belum ditambahkan')
+                                    ->copyable()
+                                    ->extraAttributes([
+                                        'class' => 'social-item tiktok-item',
+                                    ]),
+
+                            ]),
+                    ]),
+
             ]);
     }
 }

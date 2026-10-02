@@ -1,6 +1,11 @@
 @php
     $menu = [
-        ['route' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'match' => ['dashboard']],
+        [
+            'route' => 'dashboard',
+            'icon' => 'grid',
+            'label' => 'Dashboard',
+            'match' => ['dashboard'],
+        ],
         [
             'route' => 'reseller.products',
             'icon' => 'bag',
@@ -13,32 +18,77 @@
             'label' => 'Tambah Produk',
             'match' => ['reseller.products.create'],
         ],
-        ['route' => 'reseller.profile', 'icon' => 'user', 'label' => 'Profil Saya', 'match' => ['reseller.profile']],
+        [
+            'route' => 'reseller.profile',
+            'icon' => 'user',
+            'label' => 'Profil Saya',
+            'match' => ['reseller.profile'],
+        ],
     ];
 @endphp
 
 <aside class="dash-side">
+
+    {{-- LOGO --}}
     <a href="{{ route('home') }}" class="dash-logo">
         <img src="{{ asset('images/logobd.png') }}" alt="Logo BD" class="pgb-logo">
-        <span><strong>BD</strong><small>Business Development</small></span>
+
+        <span>
+            <strong>BD</strong>
+            <small>Business Development</small>
+        </span>
     </a>
 
+    {{-- MENU UTAMA --}}
     <nav class="dash-nav" aria-label="Menu dashboard">
-        <p class="dash-label">Menu Utama</p>
+
+        <p class="dash-label">
+            Menu Utama
+        </p>
 
         @foreach ($menu as $item)
             <a href="{{ route($item['route']) }}"
                 class="dash-link {{ request()->routeIs(...$item['match']) ? 'on' : '' }}">
-                <x-i :n="$item['icon']" /> {{ $item['label'] }}
+                <x-i :n="$item['icon']" />
+                {{ $item['label'] }}
             </a>
         @endforeach
+
     </nav>
 
+    {{-- BAGIAN BAWAH --}}
     <div class="dash-side-foot">
-        <a href="{{ route('home') }}" class="dash-link"><x-i n="home" /> Kembali ke Website</a>
+
+        {{-- KEMBALI KE WEBSITE --}}
+        <a href="{{ route('home') }}" class="dash-link">
+            <x-i n="home" />
+            Kembali ke Website
+        </a>
+
+        {{-- KELUAR --}}
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="dash-link out"><x-i n="logout" /> Keluar</button>
+
+            {{-- UBAH PASSWORD --}}
+            <a href="{{ route('password.edit') }}"
+                class="dash-link {{ request()->routeIs('password.edit') ? 'on' : '' }}">
+                <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="10" width="14" height="10" rx="2" />
+
+                    <path d="M8 10V7a4 4 0 018 0v3" />
+                </svg>
+
+                Ubah Password
+            </a>
+            <button type="submit" class="dash-link out">
+                <x-i n="logout" />
+                Keluar
+            </button>
         </form>
+
+
+
     </div>
+
 </aside>

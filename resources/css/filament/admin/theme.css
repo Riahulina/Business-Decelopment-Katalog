@@ -508,3 +508,132 @@
         font-size: 21px !important;
     }
 }
+
+/* =========================================================
+   RESELLER DETAIL
+   ========================================================= */
+
+.reseller-profile-section,
+.reseller-section {
+    border-radius: 18px !important;
+    overflow: hidden;
+}
+
+/* Jarak antar section */
+.reseller-profile-section {
+    margin-bottom: 22px;
+}
+
+.reseller-contact-section {
+    margin-bottom: 22px;
+}
+
+/* Foto profil */
+.reseller-profile-photo {
+    width: 150px !important;
+    height: 150px !important;
+    object-fit: cover !important;
+    margin: 12px auto !important;
+    display: block !important;
+    border: 5px solid white !important;
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Card informasi */
+.reseller-info-card {
+    border-radius: 14px !important;
+    padding: 15px !important;
+    min-height: 72px !important;
+    border: 1px solid !important;
+    transition: all 0.2s ease;
+}
+
+.reseller-info-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+/* Warna lembut */
+.reseller-blue {
+    background: #eff6ff !important;
+    border-color: #dbeafe !important;
+}
+
+.reseller-indigo {
+    background: #eef2ff !important;
+    border-color: #e0e7ff !important;
+}
+
+.reseller-green {
+    background: #ecfdf5 !important;
+    border-color: #d1fae5 !important;
+}
+
+.reseller-orange {
+    background: #fff7ed !important;
+    border-color: #fed7aa !important;
+}
+
+.reseller-purple {
+    background: #f5f3ff !important;
+    border-color: #e9d5ff !important;
+}
+
+/* =========================================================
+   SECTION KONTAK
+   ========================================================= */
+
+.contact-item,
+.social-item {
+    border-radius: 13px !important;
+    padding: 14px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e5e7eb !important;
+    min-height: 70px !important;
+}
+
+/* WhatsApp sedikit hijau */
+.contact-wa {
+    background: #f0fdf4 !important;
+    border-color: #bbf7d0 !important;
+}
+
+/* =========================================================
+   MEDIA SOSIAL
+   ========================================================= */
+
+.instagram-item {
+    background: #fff5f7 !important;
+    border-color: #fce7ef !important;
+}
+
+.tiktok-item {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .reseller-profile-section,
+    .reseller-contact-section,
+    .reseller-social-section {
+        margin-bottom: 16px;
+    }
+
+    .reseller-profile-photo {
+        width: 125px !important;
+        height: 125px !important;
+        margin: 5px auto 18px !important;
+    }
+
+    .reseller-info-card,
+    .contact-item,
+    .social-item {
+        padding: 13px !important;
+    }
+}

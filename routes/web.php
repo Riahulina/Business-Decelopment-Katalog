@@ -11,7 +11,7 @@ use App\Http\Controllers\ResellerProfileController;
 use App\Http\Controllers\CollaborationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChatbotController;
-
+use App\Http\Controllers\Auth\PasswordController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -53,5 +53,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/dashboard/products/{id}', [App\Http\Controllers\ResellerProductController::class, 'destroy'])->name('reseller.products.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+
+    Route::get('/ubah-password', [
+        PasswordController::class,
+        'edit'
+    ])->name('password.edit');
+
+    Route::put('/ubah-password', [
+        PasswordController::class,
+        'update'
+    ])->name('password.update');
+});
 
 require __DIR__ . '/auth.php';

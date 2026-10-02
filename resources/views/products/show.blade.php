@@ -162,12 +162,10 @@
                         @endif
 
 
-                        <button type="button" class="btn o save">
-
+                        <button type="button" class="btn o like-btn" id="likeButton" data-product="{{ $product->id }}">
                             <x-i n="heart" />
-
-                            Simpan
-
+                            <span id="likeText">Suka</span>
+                            <span id="likeCount">0</span>
                         </button>
 
                     </div>
@@ -327,6 +325,136 @@
 
             button.classList.add('active');
         }
+
+
+        function changeProductImage(imageUrl, button) {
+            const mainImage = document.getElementById('mainImage');
+
+            if (mainImage) {
+                mainImage.style.opacity = '0';
+
+                setTimeout(() => {
+                    mainImage.src = imageUrl;
+                    mainImage.style.opacity = '1';
+                }, 150);
+            }
+
+            document
+                .querySelectorAll('.product-thumb')
+                .forEach(thumb => {
+                    thumb.classList.remove('active');
+                });
+
+            button.classList.add('active');
+        }
+
+
+        /* ==============================
+           LIKE PRODUK
+           ============================== */
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const likeButton = document.getElementById('likeButton');
+            const likeText = document.getElementById('likeText');
+            const likeCount = document.getElementById('likeCount');
+
+            if (!likeButton || !likeText || !likeCount) {
+                return;
+            }
+
+            const productId = likeButton.dataset.product;
+
+            const countKey = 'bd_like_count_' + productId;
+            const likedKey = 'bd_liked_' + productId;
+
+            let count = parseInt(
+                localStorage.getItem(countKey) || '0',
+                10
+            );
+
+            let liked =
+                localStorage.getItem(likedKey) === 'true';
+
+
+            function updateLikeButton() {
+
+                likeCount.textContent = count;
+
+                if (liked) {
+                    likeButton.classList.add('liked');
+                    likeText.textContent = 'Disukai';
+                } else {
+                    likeButton.classList.remove('liked');
+                    likeText.textContent = 'Suka';
+                }
+            }
+
+
+            likeButton.addEventListener('click', function() {
+
+                if (liked) {
+                    count = Math.max(0, count - 1);
+                    liked = false;
+                } else {
+                    count++;
+                    liked = true;
+                }
+
+                localStorage.setItem(
+                    countKey,
+                    count
+                );
+
+                localStorage.setItem(
+                    likedKey,
+                    liked
+                );
+
+                updateLikeButton();
+            });
+
+
+            updateLikeButton();
+
+        });
     </script>
 
 @endsection
+@push('styles')
+    <style>
+        .like-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .like-btn .i {
+            transition:
+                transform .2s ease,
+                color .2s ease;
+        }
+
+        .like-btn:hover .i {
+            transform: scale(1.08);
+        }
+
+        .like-btn.liked {
+            color: #e2556d;
+            border-color: #f2b7c2;
+            background: #fff5f7;
+        }
+
+        .like-btn.liked .i {
+            fill: currentColor;
+            color: #e2556d;
+        }
+
+        #likeCount {
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 12px;
+        }
+    </style>
+@endpush

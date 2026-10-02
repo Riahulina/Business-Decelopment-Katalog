@@ -271,6 +271,10 @@
                 </svg>
             </div>
 
+            <a href="{{ route('password.edit') }}">
+                <x-i n="lock" />
+                Ubah Password
+            </a>
             <div class="crop-actions">
                 <button type="button" class="btn o" data-crop-cancel>Batal</button>
                 <button type="button" class="btn p" id="crop-apply">Terapkan</button>

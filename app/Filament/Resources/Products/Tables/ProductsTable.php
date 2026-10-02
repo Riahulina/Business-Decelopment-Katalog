@@ -68,6 +68,63 @@ class ProductsTable
                     }),
 
                 // =====================================================
+                // WHATSAPP RESELLER
+                // =====================================================
+                TextColumn::make('reseller.whatsapp')
+                    ->label('WhatsApp')
+                    ->formatStateUsing(fn($state) => $state ? 'Hubungi WA' : '-')
+                    ->url(function ($record) {
+
+                        $whatsapp = preg_replace(
+                            '/[^0-9]/',
+                            '',
+                            $record->reseller?->whatsapp ?? ''
+                        );
+
+                        if (!$whatsapp) {
+                            return null;
+                        }
+
+                        $message =
+                            "Halo {$record->reseller->nama_lengkap} 👋\n\n" .
+                            "Saya Admin Business Development.\n" .
+                            "Terkait produk *{$record->name}* yang kamu ajukan di BD Katalog.\n\n";
+
+                        if ($record->status === 'approved') {
+
+                            $message .=
+                                "Produk kamu sudah *disetujui* dan telah dapat " .
+                                "ditampilkan di katalog BD. 🎉\n\n";
+                        } elseif ($record->status === 'rejected') {
+
+                            $message .=
+                                "Terkait pengajuan produk kamu, statusnya saat ini *ditolak*.\n\n";
+
+                            if ($record->rejection_reason) {
+                                $message .=
+                                    "Alasan penolakan:\n" .
+                                    $record->rejection_reason .
+                                    "\n\n";
+                            }
+                        } else {
+
+                            $message .=
+                                "Pengajuan produk kamu masih dalam proses " .
+                                "pemeriksaan admin.\n\n";
+                        }
+
+                        $message .= "Terima kasih.";
+
+                        return 'https://wa.me/' .
+                            $whatsapp .
+                            '?text=' .
+                            urlencode($message);
+                    }, shouldOpenInNewTab: true)
+                    ->color('success')
+                    ->icon('heroicon-o-chat-bubble-left-right')
+                    ->weight('bold'),
+
+                // =====================================================
                 // UNGGULAN
                 // =====================================================
                 ToggleColumn::make('is_featured')
@@ -184,7 +241,8 @@ class ProductsTable
                                 "Produk kamu telah disetujui oleh Admin BD Katalog.\n\n" .
                                 "📦 *Produk:* {$record->name}\n" .
                                 "📌 *Status:* Disetujui\n\n" .
-                                "Produk kamu sekarang sudah dapat ditampilkan di katalog BD.\n\n" .
+                                "Produk kamu sekarang sudah dapat ditampilkan " .
+                                "di katalog BD.\n\n" .
                                 "Terima kasih sudah berpartisipasi di BD Katalog 🙌";
 
                             $whatsappUrl =
@@ -207,15 +265,18 @@ class ProductsTable
                         // ---------------------------------------------
                         // TOMBOL WHATSAPP RESELLER
                         // ---------------------------------------------
-                        $notification->actions([
-                            Action::make('whatsapp')
-                                ->label('Hubungi Reseller')
-                                ->button()
-                                ->url(
-                                    $whatsappUrl,
-                                    shouldOpenInNewTab: true
-                                ),
-                        ]);
+                        if ($whatsappUrl) {
+
+                            $notification->actions([
+                                Action::make('whatsapp')
+                                    ->label('Hubungi Reseller')
+                                    ->button()
+                                    ->url(
+                                        $whatsappUrl,
+                                        shouldOpenInNewTab: true
+                                    ),
+                            ]);
+                        }
 
                         $notification->send();
                     }),

@@ -123,11 +123,6 @@
                                 <span>Ingat saya</span>
                             </label>
 
-                            @if (Route::has('password.request'))
-                                <a class="auth-link" href="{{ route('password.request') }}">
-                                    Lupa password?
-                                </a>
-                            @endif
                         </div>
 
                         <button type="submit" class="btn p auth-submit">

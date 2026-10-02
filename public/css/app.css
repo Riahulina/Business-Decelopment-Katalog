@@ -3693,10 +3693,140 @@ footer.site-footer {
 }
 
 /* ---------- Bottom nav ---------- */
+
 .bnav {
     display: none;
 }
 
+@media (max-width: 1000px) {
+    .bnav {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 9999;
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+
+        padding: 8px;
+
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+
+        box-shadow: 0 12px 35px rgba(10, 47, 116, 0.15);
+
+        padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .bnav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        gap: 4px;
+
+        min-width: 0;
+        padding: 7px 4px;
+
+        color: var(--mut);
+        text-decoration: none;
+
+        border-radius: 12px;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        transition: 0.2s ease;
+    }
+
+    .bnav a .i {
+        width: 20px;
+        height: 20px;
+
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .bnav a span {
+        white-space: nowrap;
+    }
+
+    .bnav a.on {
+        color: var(--pri);
+        background: var(--soft);
+    }
+
+    .bnav a:active {
+        transform: scale(0.94);
+    }
+
+    :root {
+        --bnav-h: calc(68px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .search-ic {
+        display: grid;
+    }
+
+    body {
+        padding-bottom: var(--bnav-h);
+    }
+
+    .fab {
+        bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .chatbot {
+        bottom: calc(154px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .toast {
+        bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .chatpage {
+        height: calc(100dvh - 72px - var(--bnav-h));
+    }
+}
+
+@media (max-width: 560px) {
+    .bnav {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        border-radius: 16px;
+    }
+
+    .nav .btn.nav-login {
+        display: inline-flex;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .acct-btn {
+        padding: 3px;
+    }
+
+    .acct-name,
+    .acct-btn .chev {
+        display: none;
+    }
+
+    .acct-menu {
+        min-width: 210px;
+    }
+
+    .chatpage {
+        height: calc(100dvh - 64px - var(--bnav-h));
+    }
+}
 /* =====================================================================
    DROPDOWN AKUN (navbar)
    ===================================================================== */

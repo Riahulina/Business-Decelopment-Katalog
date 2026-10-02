@@ -210,20 +210,16 @@
     </section>
 
     {{-- KOLABORASI & KABAR --}}
-
     <section class="sec" id="collaborations">
-
         <div class="wrap">
 
             <div class="sh">
-
                 <span class="si">
                     <x-i n="link" />
                 </span>
 
                 <div>
                     <h2>Kolaborasi &amp; Kabar</h2>
-
                     <p>
                         Informasi terbaru dan kolaborasi bersama Business Development.
                     </p>
@@ -233,30 +229,67 @@
                     Lihat Semua
                     <x-i n="arr" />
                 </a>
-
             </div>
 
 
-            <div class="news">
+            <div class="home-collab-grid">
 
-                {{-- BERITA --}}
-
+                {{-- =====================================================
+    BERITA
+====================================================== --}}
                 @foreach ($news->take(2) as $item)
-                    <a href="{{ route('collaborations') }}" class="card nw">
+                    @php
+                        $newsImageUrl = null;
 
-                        <div class="ph"
-                            @if ($item->cover_image) style="background-image:url('{{ asset($item->cover_image) }}'); background-size:cover; background-position:center;"
-                        @else
-                            style="background:#eaf2ff;" @endif>
+                        if ($item->cover_image) {
+                            $newsImage = $item->cover_image;
 
-                            @if (!$item->cover_image)
-                                <x-i n="users" />
+                            // URL lengkap
+                            if (str_starts_with($newsImage, 'http://') || str_starts_with($newsImage, 'https://')) {
+                                $newsImageUrl = $newsImage;
+
+                                // Sudah berupa storage/...
+                            } elseif (str_starts_with($newsImage, 'storage/')) {
+                                $newsImageUrl = asset($newsImage);
+
+                                // Berada di public/images/...
+                            } elseif (str_starts_with($newsImage, 'images/')) {
+                                $newsImageUrl = asset($newsImage);
+
+                                // Hasil upload Laravel Storage
+                            } else {
+                                $newsImageUrl = asset('storage/' . ltrim($newsImage, '/'));
+                            }
+                        }
+                    @endphp
+
+
+                    <a href="{{ route('collaborations') }}" class="card home-collab-card">
+
+                        {{-- FOTO BERITA --}}
+                        <div class="home-collab-image">
+
+                            @if ($newsImageUrl)
+                                <img src="{{ $newsImageUrl }}" alt="{{ $item->title }}"
+                                    onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='flex';
+                    ">
+
+                                <div class="home-collab-placeholder" style="display:none;">
+                                    <x-i n="users" />
+                                </div>
+                            @else
+                                <div class="home-collab-placeholder">
+                                    <x-i n="users" />
+                                </div>
                             @endif
 
                         </div>
 
 
-                        <div class="bd">
+                        {{-- ISI BERITA --}}
+                        <div class="home-collab-body">
 
                             <span class="pill">
                                 <x-i n="users" />
@@ -271,7 +304,7 @@
                                 {{ $item->excerpt }}
                             </p>
 
-                            <div class="dt">
+                            <div class="home-collab-bottom">
 
                                 <span>
                                     <x-i n="cal" />
@@ -279,7 +312,8 @@
                                     {{ $item->published_at ? $item->published_at->format('d M Y') : '-' }}
                                 </span>
 
-                                <span class="go">
+                                <span class="home-collab-more">
+                                    Baca selengkapnya
                                     <x-i n="arr" />
                                 </span>
 
@@ -291,29 +325,53 @@
                 @endforeach
 
 
-                {{-- KOLABORASI --}}
 
+                {{-- =====================================================
+                KOLABORASI
+            ====================================================== --}}
                 @foreach ($collaborations->take(2) as $collaboration)
-                    <div class="card nw">
+                    <a href="{{ route('collaborations') }}" class="card home-collab-card">
 
-                        <div class="ph" style="background:#eaf2ff;">
+                        {{-- FOTO / LOGO --}}
+                        <div class="home-collab-image collaboration-image">
 
-                            @if ($collaboration->logo)
-                                <img src="{{ asset($collaboration->logo) }}" alt="{{ $collaboration->name }}"
-                                    style="
-                                    width:80px;
-                                    height:80px;
-                                    object-fit:contain;
-                                    border-radius:16px;
-                                ">
+                            @php
+                                $logoUrl = null;
+
+                                if ($collaboration->logo) {
+                                    $logo = $collaboration->logo;
+
+                                    if (str_starts_with($logo, 'http://') || str_starts_with($logo, 'https://')) {
+                                        $logoUrl = $logo;
+                                    } elseif (str_starts_with($logo, 'storage/')) {
+                                        $logoUrl = asset($logo);
+                                    } elseif (str_starts_with($logo, 'images/')) {
+                                        $logoUrl = asset($logo);
+                                    } else {
+                                        $logoUrl = asset('storage/' . ltrim($logo, '/'));
+                                    }
+                                }
+                            @endphp
+
+
+                            @if ($logoUrl)
+                                <img src="{{ $logoUrl }}" alt="{{ $collaboration->name }}"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                <div class="home-collab-placeholder" style="display:none;">
+                                    <x-i n="users" />
+                                </div>
                             @else
-                                <x-i n="users" />
+                                <div class="home-collab-placeholder">
+                                    <x-i n="users" />
+                                </div>
                             @endif
 
                         </div>
 
 
-                        <div class="bd">
+                        {{-- ISI --}}
+                        <div class="home-collab-body">
 
                             <span class="pill">
                                 <x-i n="link" />
@@ -328,34 +386,29 @@
                                 {{ $collaboration->description ?? 'Kolaborasi dan sinergi untuk mendukung perkembangan mahasiswa.' }}
                             </p>
 
-                            <div class="dt">
+
+                            <div class="home-collab-bottom">
 
                                 <span>
                                     <x-i n="users" />
                                     Mitra Kolaborasi
                                 </span>
 
-                                @if ($collaboration->link)
-                                    <a class="go" href="{{ $collaboration->link }}" target="_blank" rel="noopener"
-                                        aria-label="Kunjungi {{ $collaboration->name }}">
-                                        <x-i n="arr" />
-                                    </a>
-                                @else
-                                    <span class="go">
-                                        <x-i n="arr" />
-                                    </span>
-                                @endif
+                                <span class="home-collab-more">
+                                    Lihat kolaborasi
+                                    <x-i n="arr" />
+                                </span>
 
                             </div>
 
                         </div>
 
-                    </div>
+                    </a>
                 @endforeach
 
 
-                {{-- KALAU KOSONG --}}
 
+                {{-- KALAU KOSONG --}}
                 @if ($news->count() === 0 && $collaborations->count() === 0)
                     <p style="color:var(--mut)">
                         Belum ada kabar atau kolaborasi yang ditampilkan.
@@ -365,7 +418,6 @@
             </div>
 
         </div>
-
     </section>
 
     {{-- KONTAK --}}
@@ -405,3 +457,218 @@
 
     </div>
 @endsection
+
+{{-- =========================================================
+    STYLE KHUSUS KOLABORASI & KABAR
+========================================================= --}}
+<style>
+    /* GRID 4 CARD */
+    .home-collab-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 24px;
+    }
+
+
+    /* CARD */
+    .home-collab-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 20px;
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+
+    .home-collab-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 35px rgba(30, 90, 160, .10);
+    }
+
+
+    /* FOTO ATAS
+       SEMUA CARD SAMA UKURAN */
+    .home-collab-image {
+        width: 100%;
+        height: 145px;
+        flex: 0 0 145px;
+        background: #eaf2ff;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    /* FOTO NEWS */
+    .home-collab-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+
+    /* LOGO KOLABORASI
+       TIDAK DI-CROP */
+    .home-collab-image.collaboration-image img {
+        width: 105px;
+        height: 105px;
+        object-fit: contain;
+        border-radius: 14px;
+    }
+
+
+    /* PLACEHOLDER */
+    .home-collab-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8aa9d5;
+    }
+
+
+    .home-collab-placeholder svg {
+        width: 38px;
+        height: 38px;
+    }
+
+
+    /* ISI CARD */
+    .home-collab-body {
+        padding: 17px 17px 15px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+    }
+
+
+    /* LABEL */
+    .home-collab-body .pill {
+        width: fit-content;
+        margin-bottom: 10px;
+    }
+
+
+    /* JUDUL
+       MAKSIMAL 2 BARIS */
+    .home-collab-body h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 15px;
+        line-height: 1.4;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        min-height: 42px;
+    }
+
+
+    /* DESKRIPSI
+       MAKSIMAL 2 BARIS */
+    .home-collab-body p {
+        margin: 9px 0 0;
+        color: var(--mut);
+        font-size: 11.5px;
+        line-height: 1.65;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        min-height: 38px;
+    }
+
+
+    /* BAGIAN BAWAH */
+    .home-collab-bottom {
+        margin-top: auto;
+        padding-top: 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+
+        color: var(--mut);
+        font-size: 10.5px;
+    }
+
+
+    .home-collab-bottom>span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        min-width: 0;
+    }
+
+
+    .home-collab-bottom svg {
+        width: 13px;
+        height: 13px;
+        flex: 0 0 auto;
+    }
+
+
+    /* LINK BACA / LIHAT */
+    .home-collab-more {
+        color: var(--pri);
+        font-weight: 700;
+        white-space: nowrap;
+        transition: gap .2s ease;
+    }
+
+
+    .home-collab-card:hover .home-collab-more {
+        gap: 8px;
+    }
+
+
+    /* =====================================================
+       TABLET
+    ====================================================== */
+    @media (max-width: 1100px) {
+
+        .home-collab-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+    }
+
+
+    /* =====================================================
+       HP
+    ====================================================== */
+    @media (max-width: 600px) {
+
+        .home-collab-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+
+        .home-collab-image {
+            height: 170px;
+            flex-basis: 170px;
+        }
+
+
+        .home-collab-body {
+            padding: 16px;
+        }
+
+    }
+</style>
