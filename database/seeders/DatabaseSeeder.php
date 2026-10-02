@@ -10,8 +10,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Admin default
         User::updateOrCreate(
-            ['email' => 'admin@bdkatalog.test'],
+            ['email' => 'admin@bd.katalog'],
             [
                 'name' => 'BD Katalog Admin',
                 'password' => Hash::make('BDKatalog2026'),
@@ -19,12 +20,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+
         $this->call([
             CategorySeeder::class,
-            ResellerSeeder::class,
-            ProductSeeder::class,
-            NewsSeeder::class,
-            CollaborationSeeder::class,
             ChatbotFaqSeeder::class,
             SiteSettingSeeder::class,
         ]);
