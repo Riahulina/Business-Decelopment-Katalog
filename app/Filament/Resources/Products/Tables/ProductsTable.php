@@ -72,9 +72,14 @@ class ProductsTable
                 // =====================================================
                 TextColumn::make('reseller.whatsapp')
                     ->label('WhatsApp')
-                    ->formatStateUsing(fn($state) => $state ? 'Hubungi WA' : '-')
+                    ->formatStateUsing(
+                        fn($state) => $state
+                            ? 'Hubungi WA'
+                            : '-'
+                    )
                     ->url(function ($record) {
 
+                        // Ambil nomor WhatsApp
                         $whatsapp = preg_replace(
                             '/[^0-9]/',
                             '',
@@ -85,40 +90,94 @@ class ProductsTable
                             return null;
                         }
 
+                        // Jika nomor diawali 0, ubah ke format Indonesia
+                        // Contoh: 083837974029 -> 6283837974029
+                        if (str_starts_with($whatsapp, '0')) {
+                            $whatsapp = '62' . substr($whatsapp, 1);
+                        }
+
+                        // =================================================
+                        // TEMPLATE PESAN
+                        // =================================================
+
                         $message =
-                            "Halo {$record->reseller->nama_lengkap} 👋\n\n" .
-                            "Saya Admin Business Development.\n" .
-                            "Terkait produk *{$record->name}* yang kamu ajukan di BD Katalog.\n\n";
+                            "Halo {$record->reseller->nama_lengkap} "
+                            . "\u{1F44B}"
+                            . "\n\n";
+
+                        $message .=
+                            "Saya Admin Business Development.\n";
+
+                        $message .=
+                            "Terkait produk *{$record->name}* "
+                            . "yang kamu ajukan di BD Katalog."
+                            . "\n\n";
+
+                        // =================================================
+                        // PRODUK DISETUJUI
+                        // =================================================
 
                         if ($record->status === 'approved') {
 
                             $message .=
-                                "Produk kamu sudah *disetujui* dan telah dapat " .
-                                "ditampilkan di katalog BD. 🎉\n\n";
-                        } elseif ($record->status === 'rejected') {
+                                "Produk kamu sudah *disetujui* "
+                                . "dan telah dapat ditampilkan "
+                                . "di katalog BD. "
+                                . "\u{1F389}"
+                                . "\n\n";
+                        }
+
+                        // =================================================
+                        // PRODUK DITOLAK
+                        // =================================================
+
+                        elseif ($record->status === 'rejected') {
 
                             $message .=
-                                "Terkait pengajuan produk kamu, statusnya saat ini *ditolak*.\n\n";
+                                "Terkait pengajuan produk kamu, "
+                                . "statusnya saat ini *ditolak*."
+                                . "\n\n";
 
                             if ($record->rejection_reason) {
+
                                 $message .=
-                                    "Alasan penolakan:\n" .
-                                    $record->rejection_reason .
-                                    "\n\n";
+                                    "Alasan penolakan:"
+                                    . "\n"
+                                    . $record->rejection_reason
+                                    . "\n\n";
                             }
-                        } else {
+                        }
+
+                        // =================================================
+                        // PRODUK MENUNGGU
+                        // =================================================
+
+                        else {
 
                             $message .=
-                                "Pengajuan produk kamu masih dalam proses " .
-                                "pemeriksaan admin.\n\n";
+                                "Pengajuan produk kamu masih "
+                                . "dalam proses pemeriksaan admin."
+                                . "\n\n";
                         }
 
                         $message .= "Terima kasih.";
 
-                        return 'https://wa.me/' .
-                            $whatsapp .
-                            '?text=' .
-                            urlencode($message);
+                        // =================================================
+                        // ENCODE PESAN
+                        // =================================================
+
+                        $query = http_build_query(
+                            ['text' => $message],
+                            '',
+                            '&',
+                            PHP_QUERY_RFC3986
+                        );
+
+                        // URL WA HARUS LANGSUNG, BUKAN MARKDOWN
+                        return 'https://wa.me/'
+                            . $whatsapp
+                            . '?'
+                            . $query;
                     }, shouldOpenInNewTab: true)
                     ->color('success')
                     ->icon('heroicon-o-chat-bubble-left-right')
@@ -205,7 +264,9 @@ class ProductsTable
                     ->label('Setujui')
                     ->icon('heroicon-o-check')
                     ->color('success')
-                    ->visible(fn($record) => $record->status === 'pending')
+                    ->visible(
+                        fn($record) => $record->status === 'pending'
+                    )
                     ->requiresConfirmation()
                     ->modalHeading('Setujui Produk')
                     ->modalDescription(
@@ -216,6 +277,7 @@ class ProductsTable
                         // ---------------------------------------------
                         // UBAH STATUS PRODUK
                         // ---------------------------------------------
+
                         $record->update([
                             'status' => 'approved',
                             'rejection_reason' => null,
@@ -224,6 +286,7 @@ class ProductsTable
                         // ---------------------------------------------
                         // AMBIL DATA RESELLER
                         // ---------------------------------------------
+
                         $record->load('reseller');
 
                         $whatsappUrl = null;
@@ -236,25 +299,66 @@ class ProductsTable
                                 $record->reseller->whatsapp
                             );
 
+                            // Jika nomor diawali 0, ubah ke format 62
+                            if (str_starts_with($whatsapp, '0')) {
+                                $whatsapp = '62' . substr($whatsapp, 1);
+                            }
+
+                            // -----------------------------------------
+                            // TEMPLATE WA APPROVAL
+                            // -----------------------------------------
+
                             $message =
-                                "Halo {$record->reseller->nama_lengkap} 👋\n\n" .
-                                "Produk kamu telah disetujui oleh Admin BD Katalog.\n\n" .
-                                "📦 *Produk:* {$record->name}\n" .
-                                "📌 *Status:* Disetujui\n\n" .
-                                "Produk kamu sekarang sudah dapat ditampilkan " .
-                                "di katalog BD.\n\n" .
-                                "Terima kasih sudah berpartisipasi di BD Katalog 🙌";
+                                "Halo {$record->reseller->nama_lengkap} "
+                                . "\u{1F44B}"
+                                . "\n\n";
+
+                            $message .=
+                                "Produk kamu telah disetujui "
+                                . "oleh Admin BD Katalog."
+                                . "\n\n";
+
+                            $message .=
+                                "\u{1F4E6} *Produk:* "
+                                . $record->name
+                                . "\n";
+
+                            $message .=
+                                "\u{1F4CC} *Status:* Disetujui"
+                                . "\n\n";
+
+                            $message .=
+                                "Produk kamu sekarang sudah dapat "
+                                . "ditampilkan di katalog BD."
+                                . "\n\n";
+
+                            $message .=
+                                "Terima kasih sudah berpartisipasi "
+                                . "di BD Katalog "
+                                . "\u{1F64C}";
+
+                            // -----------------------------------------
+                            // ENCODE PESAN
+                            // -----------------------------------------
+
+                            $query = http_build_query(
+                                ['text' => $message],
+                                '',
+                                '&',
+                                PHP_QUERY_RFC3986
+                            );
 
                             $whatsappUrl =
-                                'https://wa.me/' .
-                                $whatsapp .
-                                '?text=' .
-                                urlencode($message);
+                                'https://wa.me/'
+                                . $whatsapp
+                                . '?'
+                                . $query;
                         }
 
                         // ---------------------------------------------
                         // NOTIFICATION BERHASIL
                         // ---------------------------------------------
+
                         $notification = Notification::make()
                             ->title('Produk berhasil disetujui')
                             ->body(
@@ -263,8 +367,9 @@ class ProductsTable
                             ->success();
 
                         // ---------------------------------------------
-                        // TOMBOL WHATSAPP RESELLER
+                        // TOMBOL HUBUNGI RESELLER
                         // ---------------------------------------------
+
                         if ($whatsappUrl) {
 
                             $notification->actions([
@@ -288,7 +393,9 @@ class ProductsTable
                     ->label('Tolak')
                     ->icon('heroicon-o-x-mark')
                     ->color('danger')
-                    ->visible(fn($record) => $record->status === 'pending')
+                    ->visible(
+                        fn($record) => $record->status === 'pending'
+                    )
                     ->schema([
                         Textarea::make('rejection_reason')
                             ->label('Alasan Penolakan')
@@ -302,7 +409,8 @@ class ProductsTable
 
                         $record->update([
                             'status' => 'rejected',
-                            'rejection_reason' => $data['rejection_reason'],
+                            'rejection_reason' =>
+                            $data['rejection_reason'],
                         ]);
 
                         Notification::make()
